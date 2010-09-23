@@ -1,5 +1,5 @@
 __file__.html index.html.erb
-s7/projection.css
+s7/keynote.css
 s7/s7-controls.js
 s7/s7-keyboard.js
 s7/s7-permalink.js
