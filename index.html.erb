@@ -1,0 +1,200 @@
+<!doctype html>
+<title><%= @headers['title'] %></title>
+<meta charset="utf-8">
+<meta name="author" content="<%= @headers['author'] %>">
+<meta name="copyright" content="<%= @headers['copyright'] %>">
+<style>
+
+@font-face {
+    font-family: "Gotham";
+    src: url("gotham.ttf");
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    background-color: #232323;
+    color: #e0e0e0;
+}
+
+body {
+    background: #232323 -webkit-gradient(linear, left top, left bottom, from(#111), to(transparent), color-stop(30%, #111)); 
+    font: 32px Gotham, "Helvetica Neue", sans-serif;
+    padding: 10px;
+}
+
+h1 {
+    font-size: 1.6em;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+a {
+    color: #fff;
+}
+
+#hd {
+    background: #111 no-repeat center left;
+    position: fixed;
+    bottom: 0;
+    border: 5px solid #e0e0e0;
+    border-width: 1px 0 1px;
+    width: 100%;
+    margin: 0 -10px;
+    padding: 0 160px;
+}
+
+#identity {
+    height: 100px;
+    background: #111 no-repeat center left;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJEAAABQCAYAAAAZbJcyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEi0lEQVR42u2d0ZGsIBBFJwRDMARDMIQJwRAMwQwMwRAMYUMwhAmBDLzvY5l9lqWC0CDovVV+za4DzbFpupF5vSiKoiiKoqhHCkANoAUwAJgAKAAlLUOZoOnmef7BtnpaiVpDUwBoAIzay5hEL0S9XgBKPUVNOKeB1qPHaRzAWaqmJZ8b4wzw1DzPH1rzgV5nnucP5NTRss+JdTrLAPmsGFA/AJ4B4TTRyoTHVy2tfc+YJ9S0xansAQC9hQNmrsqeNHUdlCJCimWOmwDURpy61npzBOh9vGQZn/W6nS2AItQ0rut741bmfFH/GwBUARcyu30FUAEYvp8nEftc6H2+8dCPBUDTmf/xsMWuh9SLjLUq4TYU6/FY9lUDppKoNerGDkhDncPgig/gljdeDaAKXSzWnme3rzsgI5RnNrnLCemoNrS3i1GoNXlJFy/q0IbDvsayhamR1dXTl0M8RIhSgUgHhUnJZhAIUSIQHcy1V6snRBlAlFAA7ZQfIkQXQ5Q4QFb1MkJ0IUQZAKQkDEuIAkGUAUDWA0CILoAoB4DObIUlRJEhygggAGgIUWIQJbyMh0/ZghBFgijFRKJvppoQRYRIlzJy00SIEoFoZ2tA8jpjfEIUEKKtfTYZqSNEaUA0IF81hOhiiHIMpF07TYgCQIQE9wSFqJkRorAQTZkDhJP9bQmRIEQHN8lpZfY5adjaNzi3XKSYIFKuRWRbHbx1U4pAlGk+yPvpPej3KAhRY2qraYCF2qGOPLcERBPuoVHKuFIDuAfIyhP1IT2iDcheEGVYFxPJES36P+7caxAYvNrGa2L/1SUFgVd2Ds4+aKUgUg+H6C2RLtiKhY4OrlhPvQd/O3qC3NusZH0hKrQh+xtMa43wk6rg8CKjTcZ/DZFhYTNITmNb95RONroe75tVovGEN1Ins+BWL3BuQFQYjtwZzkxtBg+k1jEfAlbxS90YdWeIDLHR36Af3R8nD+7aWkkaYIaGrLF4IEwQt9ETr9pAbczDqS6AqLD0IB/tFbrv5XLyyV46wuBB/jyJ/s5ucY2WAA9XZu9zqK0VAp43itc9ymkhXAF82rMRIXIoeRhWVT+CzVIuidEAFYQ+hTqiKbt6C4hW+TPl6220d3PKrgOofO2tp9/a4rv2IKqkvVCZckAUwOsWOuY5GwuOy4HzLdHg97DUH4epqzn50ASt32WR3X4FlK6ztdDH0a0v/SS/t2IOiTrfAurmG8xvtKHXn5dCs0wTwpDTUyEKuRUksbbW+ipD3DzpqYwQZSD8//GW9dUv3CkhIkRiwej3x3v7mHARopsrBkyE6P4eaiJEhEjckE+ACBG24BKi+0PUS22gI0RxVCbW5+KgdFKRioAQzfP8WWWCv1e7SIatrzZBiMa9/pEIOYgmve2hDZYlva6/g/Q2XkL0u5Hqo2OEN2L/8EgiANEL+Rm2fEAfa4tURk0aqOXSvdZetbPMg3FFRlnFO6Kv/VD3BKghQJQvRGf3Pre0GuUE0Xd/NS1GbUF0lIVWOl7iCoyyAqldZNIbljEoiqIoiqIoiqKoePoHk15rghnc3BwAAAAASUVORK5CYII%3D);
+    position: relative;
+}
+
+#identity h3 {
+    position: absolute;
+    top: 21px;
+    left: 160px;
+}
+
+#bd, #ft {
+    margin: 0 10px 0 160px;
+}
+
+#identity p {
+    position: absolute;
+    right: 320px;
+    top: 19px;
+}
+#bd {
+    margin-bottom: 200px;
+}
+
+#hd * {
+    font-weight: 100;
+    font-size: 45px;
+}
+
+#hd strong, #hd h2 {
+    font-weight: 500;
+}
+
+.clear {
+    clear: both;
+}
+
+#hd, #bd, .slide {
+    margin-bottom: 30px;
+}
+
+#slide h3, #bd p, pre, dl, ul {
+    margin: 20px 0 20px;
+}
+
+#bd p, pre {
+    margin-left: 20px;
+}
+
+dt {
+    font-family: monospace;
+    color: #fff;
+}
+
+dd {
+    margin: 10px 20px;
+}
+
+code, dt, pre, span.req, span.opt, em {
+    background: #333;
+    text-shadow: #000 1px 1px 1px;
+    padding: 1px;
+}
+
+dt.opt, span.opt {
+    color: #bbb;
+    background: #161616;
+}
+
+dt, pre {
+    margin-left: 5px;
+    border-left: 10px solid #fff;
+    padding-left: 5px;
+}
+
+#ft {
+    font-size: 50%;
+    text-transform: uppercase;
+    color: #999;
+}
+
+.offscreen {
+    position: absolute;
+    left: -999em;
+}
+
+.slide {
+    display: none;
+}
+
+.slide.title {
+    display: block;
+}
+
+</style>
+<link rel="stylesheet" href="s7/projection.css" media="screen">
+<body>
+<div id="bd">
+
+<div class="layout"> 
+  <div id="header"></div>
+  <div id="footer">
+    <h1><%= @headers['footer'] %></h1>
+    <h2><%= @headers['subfooter'] %></h2>
+  </div>
+    <div id="controls">
+        <div id="nav">
+            <a id="prev" href="#">back</a>
+            <a id="next" href="#">next</a>
+        </div>
+        <div id="currentSlide"></div>
+    </div>
+</div>
+
+<div class="presentation">
+
+    <div class="slide title">
+        <h1><%= @headers['title'] %></h1>
+        <p><%= @headers['author'] %></p>
+    </div>
+   
+<%= @content %>
+
+</div><!-- presentation -->
+
+</div>
+<!--
+<div id="ft">
+    <%= @headers['copyright'] %>
+    yuideck0
+</div>
+-->
+<!--
+<script src="http://yui.yahooapis.com/combo?3.2.0/build/yui/yui-min.js&amp;3.2.0/build/loader/loader-min.js"></script>
+-->
+<script src="yui3/build/yui/yui.js"></script>
+<script src="s7/s7-slideshow.js"></script>
+<script src="s7/s7-controls.js"></script>
+<script src="s7/s7-keyboard.js"></script>
+<script src="s7/s7-permalink.js"></script>
+<script src="s7/s7-transition-fade.js"></script>
+<script src="s7/s7.js"></script>
+<script>
+  <%= content_for :js %>
+</script>
+
+</body>
