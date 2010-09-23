@@ -1,14 +1,19 @@
 <!doctype html>
+
 <title><%= @headers['title'] %></title>
+
 <meta charset="utf-8">
 <meta name="author" content="<%= @headers['author'] %>">
 <meta name="copyright" content="<%= @headers['copyright'] %>">
+
 <link rel="stylesheet" href="s7/keynote.css" media="screen">
+
 <style>
   <%= content_for :css %>
 </style>
 
 <body>
+
 <div id="bd">
 
 <div class="presentation">
@@ -21,7 +26,7 @@
    
 <%= @content %>
 
-</div><!-- presentation -->
+</div>
 
 </div>
 
@@ -36,9 +41,7 @@
     <%= @headers['copyright'] %>
     </p>
 </div>
-<!--
-<script src="http://yui.yahooapis.com/combo?3.2.0/build/yui/yui-min.js&amp;3.2.0/build/loader/loader-min.js"></script>
--->
+
 <script src="yui3/build/yui/yui.js"></script>
 <script src="s7/s7-slideshow.js"></script>
 <script src="s7/s7-controls.js"></script>
