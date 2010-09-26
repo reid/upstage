@@ -13,8 +13,8 @@ YUI.add("s7-controls", function (Y) {
     }
 
     Y.S7.on("start", function () {
-        controls.one("#prev").on("click", Y.S7.hire("warp", -1));
-        controls.one("#next").on("click", Y.S7.hire("warp", 1));        
+        controls.one("#prev").on("click", Y.bind(Y.S7.fire, Y.S7, "warp", -1));
+        controls.one("#next").on("click", Y.bind(Y.S7.fire, Y.S7, "warp", 1));
         syncCurrentSlide(1);
     });
 

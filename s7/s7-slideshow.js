@@ -3,18 +3,6 @@ YUI.add("s7-slideshow", function (Y) {
     Y.namespace("S7");
     Y.augment(Y.S7, Y.EventTarget);
 
-    var arr_proto_slice = Array.prototype.slice;
-
-    Y.S7.hire = function () {
-        var args = arr_proto_slice.call(arguments, 0);
-        return function () {
-            var varg = args.concat(
-                arr_proto_slice.call(arguments, 0)
-            );
-            Y.S7.fire.apply(Y.S7, varg);
-        }
-    };
-
     Y.S7.on("start", function () {
         Y.all(".slide").each(function (node, idx) {
             node.set("id", "slide" + (idx+1));
