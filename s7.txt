@@ -1,5 +1,6 @@
 __file__.html index.html.erb
 s7/keynote.css
+s7/logo.png
 s7/s7-controls.js
 s7/s7-keyboard.js
 s7/s7-permalink.js

@@ -21,7 +21,6 @@
     <div class="slide title">
         <h1><%= @headers['title'] %></h1>
         <p><%= @headers['author'] %></p>
-        <p><%= @headers['copyright'] %></p>
     </div>
    
 <%= @content %>
@@ -31,15 +30,16 @@
 </div>
 
 <div id="ft">
-    <p>Powered by YUI 3.</p>
-    <div id="nav">
-        <a id="prev" href="#">back</a>
-        <p id="currentSlide">0/0</p>
-        <a id="next" href="#">next</a>
+    <div id="credit">
+        <p>
+        <%= @headers['footer'] %>
+        </p>
     </div>
-    <p>
-    <%= @headers['copyright'] %>
-    </p>
+    <div id="nav">
+        <a id="prev" href="#">&larr;</a>
+        <p id="currentSlide">0/0</p>
+        <a id="next" href="#">&rarr;</a>
+    </div>
 </div>
 
 <script src="yui3/build/yui/yui.js"></script>
