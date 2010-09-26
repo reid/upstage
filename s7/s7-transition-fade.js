@@ -53,6 +53,17 @@ YUI.add("s7-transition-fade", function (Y) {
             }, Y.bind(queue.run, queue));
         });
 
+        queue.add(function () {
+            // hide the previous slide completely.
+            // this prevents a transparent slide
+            // from getting in the way of elements
+            // on the current slide.
+            prev.setStyles({
+                "display" : "none",
+                "opacity" : "1"
+            });
+        });
+
         queue.add(shutdown);
 
         queue.run();
