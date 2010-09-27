@@ -3,10 +3,19 @@ YUI.add("s7-gesture", function (Y) {
     var MIN_SWIPE = 10; // pixel distance for considering gesture as a swipe
     var MIN_HOLD = 500; // milliseconds for considering tap as held
 
-    Y.S7.on("ui:tap", Y.bind(Y.S7.fire, Y.S7, "warp", 1));
-    Y.S7.on("ui:heldtap", Y.bind(Y.S7.fire, Y.S7, "position", 1));
-    Y.S7.on("ui:swipeleft", Y.bind(Y.S7.fire, Y.S7, "warp", 1));
-    Y.S7.on("ui:swiperight", Y.bind(Y.S7.fire, Y.S7, "warp", -1));
+    var fire = Y.bind(Y.S7.fire, Y.S7);
+
+    function publish (name, event, value) {
+        Y.S7.publish(name, {
+            emitFacade : true,
+            defaultFn : Y.bind(Y.S7.fire, Y.S7, event, value)
+        });
+    }
+
+    publish("ui:tap", "warp", 1);
+    publish("ui:heldtap", "position", 1);
+    publish("ui:swipeleft", "warp", 1);
+    publish("ui:swiperight", "warp", -1);
 
     function gesture (ev) {
 
@@ -35,9 +44,9 @@ YUI.add("s7-gesture", function (Y) {
                 xEnd = ev.pageX;
 
             if ( (xStart - xEnd) > MIN_SWIPE ) {
-                Y.S7.fire("ui:swipeleft", t);
+                fire("ui:swipeleft", t);
             } else if ( (xEnd - xStart) > MIN_SWIPE) {
-                Y.S7.fire("ui:swiperight", t);
+                fire("ui:swiperight", t);
             } else {
 
                 var timeStart = t.getData("gestureStart").getTime(),
@@ -45,9 +54,9 @@ YUI.add("s7-gesture", function (Y) {
                     timeDelta = timeEnd - timeStart;
 
                 if ( timeDelta > MIN_HOLD ) {
-                    Y.S7.fire("ui:heldtap", timeDelta);
+                    fire("ui:heldtap", timeDelta);
                 } else {
-                    Y.S7.fire("ui:tap", timeDelta);
+                    fire("ui:tap", timeDelta);
                 }
 
             }
