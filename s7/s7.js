@@ -9,7 +9,7 @@ YUI({
     "s7-gesture",
     "s7-permalink",
     "s7-transition-fade",
-    "console", function (Y) {
-    // (new Y.Console).render();
-    Y.S7.fire("start");
-});
+    function (Y) {
+        Y.S7.fire("start");
+    }
+);

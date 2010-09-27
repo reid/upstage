@@ -3,8 +3,6 @@ YUI.add("s7-gesture", function (Y) {
     var MIN_SWIPE = 10; // pixel distance for considering gesture as a swipe
     var MIN_HOLD = 500; // milliseconds for considering tap as held
 
-    var fire = Y.bind(Y.S7.fire, Y.S7);
-
     function publish (name, event, value) {
         Y.S7.publish(name, {
             emitFacade : true,
@@ -16,6 +14,8 @@ YUI.add("s7-gesture", function (Y) {
     publish("ui:heldtap", "position", 1);
     publish("ui:swipeleft", "warp", 1);
     publish("ui:swiperight", "warp", -1);
+
+    var fire = Y.bind(Y.S7.fire, Y.S7);
 
     function gestureEnd (targetStart, ev) {
 
