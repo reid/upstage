@@ -17,6 +17,31 @@ YUI.add("s7-gesture", function (Y) {
     publish("ui:swipeleft", "warp", 1);
     publish("ui:swiperight", "warp", -1);
 
+    function gestureEnd (targetStart, ev) {
+
+        var xStart = targetStart.getData("gestureX"),
+            xEnd = ev.pageX;
+
+        if ( (xStart - xEnd) > MIN_SWIPE ) {
+            fire("ui:swipeleft", targetStart);
+        } else if ( (xEnd - xStart) > MIN_SWIPE ) {
+            fire("ui:swiperight", targetStart);
+        } else {
+
+            var timeStart = targetStart.getData("gestureDate").getTime(),
+                timeEnd = (new Date).getTime(),
+                timeDelta = timeEnd - timeStart;
+
+            if ( timeDelta > MIN_HOLD ) {
+                fire("ui:heldtap", timeDelta);
+            } else {
+                fire("ui:tap", timeDelta);
+            }
+
+        }
+
+    }
+
     function gesture (ev) {
 
         switch (ev.target.get("tagName").toUpperCase()) {
@@ -28,40 +53,17 @@ YUI.add("s7-gesture", function (Y) {
 
         ev.preventDefault();
 
-        var t = ev.currentTarget;
+        var target = ev.currentTarget;
 
-        t.once("selectstart", function (ev) {
+        target.once("selectstart", function (ev) {
             // prevent text selection in IE
             ev.preventDefault();
         });
 
-        t.setData("gestureX", ev.pageX);
-        t.setData("gestureStart", new Date);
+        target.setData("gestureX", ev.pageX);
+        target.setData("gestureDate", new Date);
 
-        t.once("gesturemoveend", function (ev) {
-
-            var xStart = t.getData("gestureX"),
-                xEnd = ev.pageX;
-
-            if ( (xStart - xEnd) > MIN_SWIPE ) {
-                fire("ui:swipeleft", t);
-            } else if ( (xEnd - xStart) > MIN_SWIPE) {
-                fire("ui:swiperight", t);
-            } else {
-
-                var timeStart = t.getData("gestureStart").getTime(),
-                    timeEnd = (new Date).getTime(),
-                    timeDelta = timeEnd - timeStart;
-
-                if ( timeDelta > MIN_HOLD ) {
-                    fire("ui:heldtap", timeDelta);
-                } else {
-                    fire("ui:tap", timeDelta);
-                }
-
-            }
-
-        });
+        target.once("gesturemoveend", Y.bind(gestureEnd, this, target));
 
     }
 
