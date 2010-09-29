@@ -1,4 +1,4 @@
-YUI.add("s7-permalink", function (Y) {
+YUI.add("upstage-permalink", function (Y) {
 
     // enable indexing by search engines
     Y.HistoryHash.hashPrefix = "!";
@@ -52,7 +52,7 @@ YUI.add("s7-permalink", function (Y) {
 
 }, "0.0.1", {
     requires : [
-        "s7-slideshow",
+        "upstage-slideshow",
         "node",
         "history"
     ]

@@ -1,7 +1,7 @@
-YUI.add("s7-keyboard", function (Y) {
+YUI.add("upstage-keyboard", function (Y) {
 
     function keydown (ev) {
-        Y.log("s7-keyboard: " + ev.type + ": " + ev.keyCode);
+        Y.log("upstage-keyboard: " + ev.type + ": " + ev.keyCode);
         switch (ev.keyCode) {
             case 32: // space bar
             case 34: // page down
@@ -29,7 +29,7 @@ YUI.add("s7-keyboard", function (Y) {
 
 }, "0.0.1", {
     requires : [
-        "s7-slideshow",
+        "upstage-slideshow",
         "node",
         "event"
     ]

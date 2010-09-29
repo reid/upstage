@@ -1,4 +1,4 @@
-YUI.add("s7-slideshow", function (Y) {
+YUI.add("upstage-slideshow", function (Y) {
 
     Y.namespace("S7");
     Y.augment(Y.S7, Y.EventTarget);

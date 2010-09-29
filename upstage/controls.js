@@ -1,4 +1,4 @@
-YUI.add("s7-controls", function (Y) {
+YUI.add("upstage-controls", function (Y) {
 
     var controls = Y.one("#nav");
 
@@ -23,7 +23,7 @@ YUI.add("s7-controls", function (Y) {
 
 }, "0.0.1", {
     requires : [
-        "s7-slideshow",
+        "upstage-slideshow",
         "node"
     ]
 });

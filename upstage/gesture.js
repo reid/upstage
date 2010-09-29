@@ -1,4 +1,4 @@
-YUI.add("s7-gesture", function (Y) {
+YUI.add("upstage-gesture", function (Y) {
 
     var MIN_SWIPE = 10; // pixel distance for considering gesture as a swipe
     var MIN_HOLD = 500; // milliseconds for considering tap as held
@@ -73,7 +73,7 @@ YUI.add("s7-gesture", function (Y) {
 
 }, "0.0.1", {
     requires : [
-        "s7-slideshow",
+        "upstage-slideshow",
         "event-move"
     ]
 });

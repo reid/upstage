@@ -1,4 +1,4 @@
-YUI.add("s7-transition-fade", function (Y) {
+YUI.add("upstage-transition-fade", function (Y) {
 
     var running = false;
     var queue = new Y.AsyncQueue;
@@ -72,7 +72,7 @@ YUI.add("s7-transition-fade", function (Y) {
 
 }, "0.0.1", {
     requires : [
-        "s7-slideshow",
+        "upstage-slideshow",
         "transition",
         "async-queue"
     ]
