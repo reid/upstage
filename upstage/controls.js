@@ -1,5 +1,7 @@
 YUI.add("upstage-controls", function (Y) {
 
+    var Upstage = Y.Upstage;
+
     var controls = Y.one("#nav");
 
     if (
@@ -12,14 +14,14 @@ YUI.add("upstage-controls", function (Y) {
         );
     }
 
-    Y.S7.on("start", function () {
-        controls.one("#prev").on("click", Y.bind(Y.S7.fire, Y.S7, "warp", -1));
-        controls.one("#next").on("click", Y.bind(Y.S7.fire, Y.S7, "warp", 1));
+    Upstage.on("start", function () {
+        controls.one("#prev").on("click", Y.bind(Upstage.fire, Upstage, "warp", -1));
+        controls.one("#next").on("click", Y.bind(Upstage.fire, Upstage, "warp", 1));
         syncCurrentSlide(1);
     });
 
     // absolute position
-    Y.S7.on("navigate", syncCurrentSlide);
+    Upstage.on("navigate", syncCurrentSlide);
 
 }, "0.0.1", {
     requires : [

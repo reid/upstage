@@ -8,11 +8,11 @@ YUI.add("upstage-transition-fade", function (Y) {
         queue.stop();
     }
 
-    Y.S7.on("transition", function (ev) {
+    Y.Upstage.on("transition", function (ev) {
 
         if (running) {
             // A transition is already in progress.
-            // Run S7's default transition behavior
+            // Run Upstage's default transition behavior
             // by reverting our styles and not calling
             // ev.preventDefault. Finally, tell the
             // current transitions to halt.

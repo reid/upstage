@@ -1,9 +1,11 @@
 YUI.add("upstage-slideshow", function (Y) {
 
-    Y.namespace("S7");
-    Y.augment(Y.S7, Y.EventTarget);
+    Y.namespace("Upstage");
+    Y.augment(Y.Upstage, Y.EventTarget);
 
-    Y.S7.on("start", function () {
+    var Upstage = Y.Upstage;
+
+    Upstage.on("start", function () {
         // give every slide a #slide{n} id
         Y.all(".slide").each(function (node, idx) {
             idx++;
@@ -11,34 +13,34 @@ YUI.add("upstage-slideshow", function (Y) {
             node.setData("slide", idx);
         });
         // navigate to slide 1
-        Y.S7.fire("position", 1);
+        Upstage.fire("position", 1);
     });
 
     // warp: give a relative number of steps to navigate to
-    Y.S7.on("warp", function (rel, mouseEvent) {
+    Upstage.on("warp", function (rel, mouseEvent) {
         if (mouseEvent && mouseEvent.halt) mouseEvent.halt(); // prevent navigation to "#"
 
-        var idx = Y.S7.currentSlide + parseInt(rel, 10);
+        var idx = Upstage.currentSlide + parseInt(rel, 10);
 
-        Y.log("warp: to slide " + idx + " from slide " + Y.S7.currentSlide);
-        Y.S7.fire("position", idx);
+        Y.log("warp: to slide " + idx + " from slide " + Upstage.currentSlide);
+        Upstage.fire("position", idx);
     });
 
     // position: give the slide number you'd like to navigate to
-    Y.S7.on("position", function (next) {
+    Upstage.on("position", function (next) {
         // can't go earlier than the first slide
         // can't go further than the last slide
         next = Math.max(1, next),
         next = Math.min(next, Y.all(".slide").size());
         Y.log("position: should the next slide be " + next);
 
-        var previous = Y.S7.currentSlide || 1;
-        Y.S7.currentSlide = parseInt(next, 10);
+        var previous = Upstage.currentSlide || 1;
+        Upstage.currentSlide = parseInt(next, 10);
 
         if (previous != next) {
             Y.log("position: yes, firing transition and navigate");
-            Y.S7.fire("navigate", next); // fired only when navigation is happening
-            Y.S7.fire("transition",
+            Upstage.fire("navigate", next); // fired only when navigation is happening
+            Upstage.fire("transition",
                 Y.one("#slide" + previous),
                 Y.one("#slide" + next)
             );
@@ -46,7 +48,7 @@ YUI.add("upstage-slideshow", function (Y) {
     });
 
     // transition: moves from slide A to B. may be overriden with preventDefault.
-    Y.S7.publish("transition", {
+    Upstage.publish("transition", {
         emitFacade : true,
         defaultFn : function (ev) {    
             var prev = ev.details[0],

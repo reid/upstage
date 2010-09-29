@@ -10,6 +10,6 @@ YUI({
     "upstage-permalink",
     "upstage-transition-fade",
     function (Y) {
-        Y.S7.fire("start");
+        Y.Upstage.fire("start");
     }
 );

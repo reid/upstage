@@ -1,12 +1,14 @@
 YUI.add("upstage-gesture", function (Y) {
 
+    var Upstage = Y.Upstage;
+
     var MIN_SWIPE = 10; // pixel distance for considering gesture as a swipe
     var MIN_HOLD = 500; // milliseconds for considering tap as held
 
     function publish (name, event, value) {
-        Y.S7.publish(name, {
+        Upstage.publish(name, {
             emitFacade : true,
-            defaultFn : Y.bind(Y.S7.fire, Y.S7, event, value)
+            defaultFn : Y.bind(Upstage.fire, Upstage, event, value)
         });
     }
 
@@ -15,7 +17,7 @@ YUI.add("upstage-gesture", function (Y) {
     publish("ui:swipeleft", "warp", 1);
     publish("ui:swiperight", "warp", -1);
 
-    var fire = Y.bind(Y.S7.fire, Y.S7);
+    var fire = Y.bind(Upstage.fire, Upstage);
 
     function gestureEnd (targetStart, ev) {
 
@@ -67,7 +69,7 @@ YUI.add("upstage-gesture", function (Y) {
 
     }
 
-    Y.S7.on("start", function () {
+    Upstage.on("start", function () {
         Y.one("body").delegate("gesturemovestart", gesture, ".slide");
     });
 
