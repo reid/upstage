@@ -1,40 +1,40 @@
-S7 Slideshow System
-===================
+Upstage Slideshow System
+========================
 
-S7 is a slideshow system that runs in a web browser. It's powered by [YUI][].
+Upstage is a slideshow system that runs in a web browser. It's powered by [YUI][].
 
-S7 is inspired by S5 and S6, which are similar and do much more than this project. This project does nothing more than what I need.
+Upstage is inspired by S5 and S6, which are similar and do much more than this project. This project does nothing more than what I need.
 
-Using S7
---------
+Using Upstage
+-------------
 
-S7 is ready for you to use with [SlideShow][].
+Upstage is ready for you to use with [SlideShow][].
 
     gem install slideshow
 
-Once SlideShow is installed, you can install the S7 template pack:
+Once SlideShow is installed, you can install the Upstage template pack:
 
-    slideshow -f http://github.com/reid/s7/raw/master/s7.txt 
+    slideshow -f http://github.com/reid/upstage/raw/master/upstage.txt
 
 Then, generate your presentation:
 
-    slideshow -t s7 example.text
+    slideshow -t upstage example.text
 
 For an example of a SlideShow document, see my [decks][] repository.
 
-YUI is not included with S7. Download [YUI 3][] and place it in the same folder as your presentation under the directory yui.
+YUI is not included with Upstage. Download [YUI 3][] and place it in the same folder as your presentation under the directory yui.
 
 Alternatively, you may edit index.html.erb to point to yui.yahooapis.com or another local copy of YUI.
 
-S7's stylesheet references the YUI logo and Gotham font. These files are not included with S7's distribution because I can't relicense them.
+Upstage's stylesheet references the YUI logo and Gotham font. These files are not included with Upstage's distribution because I can't relicense them.
 
-Hacking S7
-----------
+Hacking Upstage
+---------------
 
-S7 is easily extensible. Interesting moments in the slideshow are exposed as events on Y.S7.
+Upstage is easily extensible. Interesting moments in the slideshow are exposed as events on Y.Upstage.
 
 - start
-    - Fired once when S7 is ready to be started. This happens right before onload, in s7.js.
+    - Fired once when Upstage is ready to be started. This happens right before onload, in upstage.js.
 - warp
     - Fired to move forward or backward a given number of steps or slides.
     - Takes an integer representing how many steps to move. If negative, movement will be backwards.
@@ -52,34 +52,34 @@ S7 is easily extensible. Interesting moments in the slideshow are exposed as eve
     - Fired to perform the actual transition between slides.
     - Takes two YUI Node instances for the previous and next slides, respectively.
     - Normally only fired by the navigate event.
-    - May be overriden to add your own transition effects. See s7-transition-fade.js.
+    - May be overriden to add your own transition effects. See transition-fade.js.
 
-Built-in S7 Modules
--------------------
+Built-in Upstage Modules
+------------------------
 
-The s7.js file loads all S7 modules and then fires the start event. Here are the included modules:
+The upstage.js file loads all Upstage modules and then fires the start event. Here are the included modules:
 
-- s7-slideshow
-    - This core module defines most of S7's events. Required to do anything useful.
-- s7-controls
+- slideshow
+    - This core module defines most of Upstage's events. Required to do anything useful.
+- controls
     - Displays back and next buttons. Shows the current slide number.
-- s7-keyboard
+- keyboard
     - Handles keyboard interaction to move between slides: back, forward, home, end, etc.
-- s7-gesture
+- gesture
     - Handles gesture interaction, exposing ui:swipeleft, ui:swiperight, ui:tap, etc.
     - Provides default handlers that move between slides.
-- s7-permalink
+- permalink
     - Updates the fragment identifier of the page to create permalinks to the slides.
     - Navigates to the correct slide when a fragment identifier is in the URL.
-- s7-transition-fade
+- transition-fade
     - Replaces the default transition with one that fades between slides.
 
 Author, License, Bugs
 ---------------------
 
-S7 was written by Reid Burke.
+Upstage was written by Reid Burke.
 
-S7 is available online at <http://github.com/reid/s7>. You may file bugs or contact me there.
+Upstage is available online at <http://github.com/reid/upstage>. You may file bugs or contact me there.
 
   [YUI]: http://yuilibrary.com/
   [SlideShow]: http://slideshow.rubyforge.org/

@@ -1,0 +1,10 @@
+__file__.html index.html.erb
+upstage/keynote.css
+upstage/logo.png
+upstage/controls.js
+upstage/keyboard.js
+upstage/gesture.js
+upstage/permalink.js
+upstage/slideshow.js
+upstage/transition-fade.js
+upstage/upstage.js
