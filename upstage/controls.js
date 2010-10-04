@@ -6,7 +6,7 @@ YUI.add("upstage-controls", function (Y) {
 
     if (
         controls === null
-    ) throw new Error("controls are missing");
+    ) return Y.error("#nav controls are missing");
 
     function syncCurrentSlide (idx) {
         controls.one("#currentSlide").setContent(

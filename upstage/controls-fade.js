@@ -2,6 +2,8 @@ YUI.add("upstage-controls-fade", function (Y) {
     Y.Upstage.on("start", function () {
         var ft = Y.one("#ft");
 
+        if (!ft) return Y.error("#ft footer is missing");
+
         ft.setStyles({
             "height" : 0,
             "display" : "block"
