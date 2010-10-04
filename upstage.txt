@@ -2,6 +2,7 @@ __file__.html index.html.erb
 upstage/keynote.css
 upstage/logo.png
 upstage/controls.js
+upstage/controls-fade.js
 upstage/keyboard.js
 upstage/gesture.js
 upstage/permalink.js

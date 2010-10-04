@@ -118,9 +118,8 @@ dt, pre {
     top: 0;
     left: 0; 
     margin: 0;
-    padding: 2% 4% 0% 4%;
+    padding: 2% 4% 0 4%;
     width: 92%;
-    height: 90%; /* 5 +padding+border+margin = 100% */
     overflow-x: hidden;
     overflow-y: auto;
     z-index: 2;
@@ -151,11 +150,11 @@ dt, pre {
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 4%;
+    height: 30px;
     z-index: 4;
     background: #000;
     border-top: 1px solid #ccc;
-    padding-top: 0.65em;
+    padding-top: 0.35em;
 
     font-size: 50%;
     text-transform: uppercase;
@@ -163,12 +162,14 @@ dt, pre {
 
     background: #111 no-repeat center left;
     background-image: url("logo.png");
+
+    display: none;
 }
 
 #ft p, #ft a {
     display: block;
     float: left;
-    padding-left: 20px;
+    padding: 0 10px;
 }
 
 .title {

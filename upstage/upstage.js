@@ -5,6 +5,7 @@ YUI({
 }).use(
     "upstage-slideshow",
     "upstage-controls",
+    "upstage-controls-fade",
     "upstage-keyboard",
     "upstage-gesture",
     "upstage-permalink",
