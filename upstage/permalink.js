@@ -23,6 +23,7 @@ YUI.add("upstage-permalink", function (Y) {
     Upstage.on("transition", function (ev) {
         var next = ev.details[1],
             idx = next.getData("slide"),
+            slide = "Slide",
             slideTitle;
 
         if (idx == 1) {
@@ -31,8 +32,8 @@ YUI.add("upstage-permalink", function (Y) {
             slideTitle = titleContent;
         } else {
             var h1 = next.one("h1");
-            if (h1) slideTitle = h1.get("innerHTML");
-            if (!slideTitle) slideTitle = "Slide " + next.getData("slide");
+            if (h1) slideTitle = Y.Selection.getText(h1);
+            if (!slideTitle) slideTitle = slide + " " + next.getData("slide");
             slideTitle = titleContent + ": " + slideTitle;
         }
 
@@ -56,6 +57,7 @@ YUI.add("upstage-permalink", function (Y) {
     requires : [
         "upstage-slideshow",
         "node",
-        "history"
+        "history",
+        "selection"
     ]
 });
