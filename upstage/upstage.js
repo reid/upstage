@@ -4,6 +4,7 @@ YUI({
     useConsole : true
 }).use(
     "upstage-slideshow",
+    "upstage-l10n-en",
     "upstage-controls",
     "upstage-controls-fade",
     "upstage-keyboard",

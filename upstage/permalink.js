@@ -23,7 +23,7 @@ YUI.add("upstage-permalink", function (Y) {
     Upstage.on("transition", function (ev) {
         var next = ev.details[1],
             idx = next.getData("slide"),
-            slide = "Slide",
+            slide = Upstage.L10N.get("Slide"),
             slideTitle;
 
         if (idx == 1) {

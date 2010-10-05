@@ -1,19 +1,27 @@
 YUI.add("upstage-slideshow", function (Y) {
 
     Y.namespace("Upstage");
-    Y.augment(Y.Upstage, Y.EventTarget);
-
     var Upstage = Y.Upstage;
 
+    Y.augment(Upstage, Y.EventTarget);
+
     Upstage.on("start", function () {
+
+        // freeze L10N into Y.Upstage
+        Y.mix(Upstage, {
+            L10N : Y.UpstageL10N
+        });
+
         // give every slide a #slide{n} id
         Y.all(".slide").each(function (node, idx) {
             idx++;
             node.set("id", "slide" + idx);
             node.setData("slide", idx);
         });
+
         // navigate to slide 1
         Upstage.fire("position", 1);
+
     });
 
     // warp: give a relative number of steps to navigate to
@@ -60,6 +68,7 @@ YUI.add("upstage-slideshow", function (Y) {
 
 }, "0.0.1", {
     requires : [
+        "upstage-l10n",
         "event-custom",
         "node"
     ]
