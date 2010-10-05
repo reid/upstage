@@ -1,6 +1,7 @@
 YUI.add("upstage-permalink", function (Y) {
 
-    var Upstage = Y.Upstage;
+    var Upstage = Y.Upstage,
+        getText = Y.Selection.getText;
 
     // enable indexing by search engines
     Y.HistoryHash.hashPrefix = "!";
@@ -11,7 +12,7 @@ YUI.add("upstage-permalink", function (Y) {
 
     Upstage.on("start", function () {
         title = Y.one("title");
-        titleContent = title.get("innerHTML");
+        titleContent = getText(title);
 
         Upstage.fire("position", history.get("slide") || 1);
     });
@@ -32,7 +33,7 @@ YUI.add("upstage-permalink", function (Y) {
             slideTitle = titleContent;
         } else {
             var h1 = next.one("h1");
-            if (h1) slideTitle = Y.Selection.getText(h1);
+            if (h1) slideTitle = getText(h1);
             if (!slideTitle) slideTitle = slide + " " + next.getData("slide");
             slideTitle = titleContent + ": " + slideTitle;
         }
