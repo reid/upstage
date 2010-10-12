@@ -1,0 +1,1 @@
+YUI.add("lang/upstage-l10n",function(a){a.Intl.add("upstage-l10n","",{"Slide":"Slide"});},"@VERSION@");

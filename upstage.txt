@@ -3,4 +3,3 @@ build/upstage-min.js
 build/upstage-keynote-min.css
 build/assets/logo.png
 build/lang/upstage-l10n.js
-build/lang/upstage-l10n_en.js

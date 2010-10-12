@@ -1,2 +1,15 @@
 yui3
-build
+build/lang/upstage_*
+build/lang/upstage-l10n_*
+build/lang/upstage.js
+build/*-debug.js
+build/upstage-*-min.js
+build/upstage-controls.js
+build/upstage-gesture.js
+build/upstage-keyboard.js
+build/upstage-keynote.css
+build/upstage-l10n.js
+build/upstage-permalink.js
+build/upstage-slideshow.js
+build/upstage-transition-fade.js
+build/upstage.js
