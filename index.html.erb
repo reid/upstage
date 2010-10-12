@@ -6,7 +6,7 @@
 <meta name="author" content="<%= @headers['author'] %>">
 <meta name="copyright" content="<%= @headers['copyright'] %>">
 
-<link rel="stylesheet" href="upstage/keynote.css" media="screen">
+<link rel="stylesheet" href="build/upstage-keynote-min.css" media="screen">
 
 <style>
   <%= content_for :css %>
@@ -35,18 +35,16 @@
     </p>
 </div>
 
-<script src="yui3/build/yui/yui.js"></script>
-<script src="upstage/slideshow.js"></script>
-<script src="upstage/l10n.js"></script>
-<script src="upstage/l10n/en.js"></script>
-<script src="upstage/controls.js"></script>
-<script src="upstage/keyboard.js"></script>
-<script src="upstage/gesture.js"></script>
-<script src="upstage/permalink.js"></script>
-<script src="upstage/transition-fade.js"></script>
-<script src="upstage/upstage.js"></script>
+<script src="yui3/build/yui/yui-min.js"></script>
+<script src="build/upstage-min.js"></script>
+<script src="build/lang/upstage-l10n.js"></script>
 <script>
-  <%= content_for :js %>
+<%= content_for :js %>
+;YUI({
+    base : "yui3/build/"
+}).use("upstage", "upstage-transition-fade", function (Y) {
+    Y.Upstage.fire("start");
+});
 </script>
 
 </body>

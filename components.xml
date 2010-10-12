@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="upstage-components" default="local">
+
+    <property file="build.properties"/>
+
+    <import file="macros.xml"/>
+    <import file="${builddir}/shared/properties.xml"/>
+
+    <target name="component">
+        <build-component target="${upstage.target}" properties="${upstage.component.properties}"/>
+    </target>
+
+    <macrodef name="build-upstage">
+        <attribute name="target"/>
+        <sequential>
+            <property name="upstage.target" value="@{target}"/>
+            <foreach target="component"
+                     param="upstage.component.properties"
+                     inheritAll="true">
+                <path>
+                    <fileset dir="components">
+                        <include name="**/build.properties"/>
+                    </fileset>
+                </path>
+            </foreach>
+        </sequential>
+    </macrodef>
+
+    <target name="local">
+        <build-upstage target="local"/>
+    </target>
+    <target name="deploy">
+        <build-upstage target="deploy"/>
+    </target>
+    <target name="all">
+        <build-upstage target="all"/>
+    </target>
+    <target name="clean">
+        <build-upstage target="clean"/>
+    </target>
+
+</project>
