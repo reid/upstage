@@ -1,8 +1,14 @@
+// This module handles gesture-based interaction with the presentation.
+
 var Upstage = Y.Upstage;
 
-var MIN_SWIPE = 10; // pixel distance for considering gesture as a swipe
-var MIN_HOLD = 500; // milliseconds for considering tap as held
+// Pixel distance for considering gesture as a swipe.
+var MIN_SWIPE = 10;
 
+// Milliseconds for considering tap as held.
+var MIN_HOLD = 500;
+
+// Helper for event publishing.
 function publish (name, event, value) {
     Upstage.publish(name, {
         emitFacade : true,
@@ -10,13 +16,16 @@ function publish (name, event, value) {
     });
 }
 
+// Publish some gesture-related events.
 publish("ui:tap", "warp", 1);
 publish("ui:heldtap", "position", 1);
 publish("ui:swipeleft", "warp", 1);
 publish("ui:swiperight", "warp", -1);
 
+// Shorthand for `Upstage.fire`.
 var fire = Y.bind(Upstage.fire, Upstage);
 
+// The gesture is over. Do something with it.
 function gestureEnd (targetStart, ev) {
 
     var xStart = targetStart.getData("gestureX"),
@@ -42,8 +51,10 @@ function gestureEnd (targetStart, ev) {
 
 }
 
+// The gesture has begun. Do we care?
 function gesture (ev) {
 
+    // Forget about taps or clicks on buttons or links.
     switch (ev.target.get("tagName").toUpperCase()) {
         case "A":
         case "INPUT":
@@ -51,22 +62,27 @@ function gesture (ev) {
             return;
     }
 
+    // Otherwise, game on!
+
     ev.preventDefault();
 
     var target = ev.currentTarget;
 
+    // Prevent text selection in IE.
     target.once("selectstart", function (ev) {
-        // prevent text selection in IE
         ev.preventDefault();
     });
 
+    // Set some data for later.
     target.setData("gestureX", ev.pageX);
     target.setData("gestureDate", new Date);
 
+    // Bind the `gestureEnd` handler just this once.
     target.once("gesturemoveend", Y.bind(gestureEnd, this, target));
 
 }
 
 Upstage.on("start", function () {
+    // When you make a gesture on a slide, we'll handle it.
     Y.one("body").delegate("gesturemovestart", gesture, ".slide");
 });

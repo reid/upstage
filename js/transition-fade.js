@@ -1,11 +1,19 @@
+// This module overrides the default transition event handler
+// and provides a fade transition instead.
+
+// Is the transition currently running?
 var running = false;
+
+// We need a way do this and `AsyncQueue` works nicely.
 var queue = new Y.AsyncQueue;
 
+// Helper to stop the `AsyncQueue`.
 function shutdown () {
     running = false;
     queue.stop();
 }
 
+// Override the transition event.
 Y.Upstage.on("transition", function (ev) {
 
     if (running) {
@@ -21,16 +29,20 @@ Y.Upstage.on("transition", function (ev) {
         return shutdown();
     }
 
+    // Otherwise, let's do our own thing.
+
     ev.preventDefault();
     running = true;
 
+    // Get slides A and B.
     var prev = ev.details[0],
         next = ev.details[1];
 
+    // First step: fade out the `prev` slide.
     queue.add(function () {
-        // run the next function after transition completes:
+        // Run the next function after transition completes:
         queue.pause();
-        // we use AsyncQueue just for the stop() ability.
+        // We use AsyncQueue just for the stop() ability.
         prev.transition({
             duration : 0.2,
             easing : "ease-out",
@@ -38,6 +50,7 @@ Y.Upstage.on("transition", function (ev) {
         }, Y.bind(queue.run, queue));
     });
 
+    // Second step: fade in the `next` slide.
     queue.add(function () {
         queue.pause();
         next.setStyles({
@@ -51,9 +64,10 @@ Y.Upstage.on("transition", function (ev) {
         }, Y.bind(queue.run, queue));
     });
 
+    // Third step: hide the `prev` slide.
     queue.add(function () {
-        // hide the previous slide completely.
-        // this prevents a transparent slide
+        // Hide the previous slide completely.
+        // This prevents a transparent slide
         // from getting in the way of elements
         // on the current slide.
         prev.setStyles({
@@ -62,8 +76,10 @@ Y.Upstage.on("transition", function (ev) {
         });
     });
 
+    // We're done.
     queue.add(shutdown);
 
+    // Get to it.
     queue.run();
 
 });

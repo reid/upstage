@@ -1,3 +1,5 @@
+// This module handles keyboard interaction with the presentation.
+
 var Upstage = Y.Upstage;
 
 function keydown (ev) {
@@ -24,5 +26,6 @@ function keydown (ev) {
 }
 
 Upstage.on("start", function () {
+    // Handle all keydown events on the body.
     Y.on("key", keydown, "body", "down:");
 });
