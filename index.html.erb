@@ -42,7 +42,7 @@
 <%= content_for :js %>
 ;YUI({
     base : "yui3/build/"
-}).use("upstage", "upstage-transition-fade", function (Y) {
+}).use("upstage", function (Y) {
     Y.Upstage.fire("start");
 });
 </script>
