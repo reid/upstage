@@ -1,10 +1,13 @@
-* {
-    padding: 0;
+body, #bd .slide, .yui3-controls * {
+    /* padding: 0; */
     margin: 0;
 }
 
 html {
     background-color: #000;
+}
+
+#bd, #ft {
     color: #e0e0e0;
 }
 
@@ -90,7 +93,7 @@ dd {
     margin: 10px 20px;
 }
 
-code, dt, pre, span.req, span.opt, em {
+#bd code, dt, #bd pre, span.req, span.opt, #bd em {
     background: #333;
     text-shadow: #000 1px 1px 1px;
     padding: 1px;
