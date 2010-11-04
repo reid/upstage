@@ -39,11 +39,12 @@
 <script src="build/upstage-min.js"></script>
 <script src="build/lang/upstage-l10n.js"></script>
 <script>
-<%= content_for :js %>
 ;YUI({
     base : "yui3/build/"
 }).use("upstage", function (Y) {
+<%= content_for :upstage %>
     Y.Upstage.fire("start");
+
 });
 </script>
 
