@@ -59,6 +59,8 @@ function gesture (ev) {
         case "A":
         case "INPUT":
         case "BUTTON":
+        case "VIDEO":
+        case "OBJECT":
             return;
     }
 
