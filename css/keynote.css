@@ -168,6 +168,10 @@ dt, pre {
     color: #fff;
 
     background: #111 url("assets/logo.png") no-repeat 0 95%;
+
+    /* hide cursor in #ft, a good target for docking the cursor */
+    /* note: cursor still shows up for links */
+    cursor: none;
 }
 
 .yui3-js-enabled #ft {
@@ -186,4 +190,14 @@ dt, pre {
 .title {
     font-size: 250%;
     text-align: center;
+}
+
+blockquote {
+    padding-left: 15px;
+    border-left: 10px solid #343434;
+    font: italic 110% Georgia, serif;
+}
+
+code {
+    font-family: Menlo, monospace;
 }
