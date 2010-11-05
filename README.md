@@ -12,19 +12,19 @@ Upstage is ready for you to use with [SlideShow][].
 
     gem install slideshow
 
-Once SlideShow is installed, you can install the Upstage template pack:
-
-    slideshow -f http://github.com/reid/upstage/raw/master/upstage.txt
+Clone this repository. Then symlink it into `~/.slideshow/templates/upstage`.
 
 Then, generate your presentation:
 
     slideshow -t upstage example.text
 
-For an example of a SlideShow document, see my [decks][] repository.
+For an example of a SlideShow document, see the [deck samples][samples] in the [SlideShow repository][s9].
 
-YUI is not included with Upstage. Download [YUI 3][] and place it in the same folder as your presentation under the directory yui.
+YUI is not included with Upstage. Download [YUI 3][] and place it in the same folder as your presentation under the directory `yui3`.
 
 Alternatively, you may edit index.html.erb to point to yui.yahooapis.com or another local copy of YUI.
+
+When publishing your slideshow to the internet, you should be using YUI from yui.yahooapis.com: it's much faster.
 
 Upstage's stylesheet references the YUI logo and Gotham font. These files are not included with Upstage's distribution because I can't relicense them.
 
@@ -83,5 +83,7 @@ Upstage is available online at <http://github.com/reid/upstage>. You may file bu
 
   [YUI]: http://yuilibrary.com/
   [SlideShow]: http://slideshow.rubyforge.org/
+  [s9]: https://github.com/geraldb/slideshow/
+  [samples]: https://github.com/geraldb/slideshow/tree/master/samples/
   [decks]: http://github.com/reid/decks
   [YUI 3]: http://yuilibrary.com/projects/yui3
