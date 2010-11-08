@@ -34,5 +34,5 @@ function keydown (ev) {
 
 Upstage.on("start", function () {
     // Handle all keydown events on the body.
-    Y.on("key", keydown, "body", "down:");
+    Y.on("key", keydown, document, "down:");
 });
