@@ -8,6 +8,11 @@ function keydown (ev) {
     // Unblank the screen for all keys except B.
     if (ev.keyCode != 66) Upstage.fire("blank:off");
 
+	// Prevent slide change when ctrl keys are pressed
+	if (ev.metaKey || ev.ctrlKey || ev.ctrlKey || ev.altKey) {
+		return;
+	}
+
     switch (ev.keyCode) {
         case 32: // space bar
         case 34: // page down
