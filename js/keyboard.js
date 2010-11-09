@@ -33,6 +33,6 @@ function keydown (ev) {
 }
 
 Upstage.on("start", function () {
-    // Handle all keydown events on the body.
+    // Handle all keydown events on the document.
     Y.on("key", keydown, document, "down:");
 });
