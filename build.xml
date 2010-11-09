@@ -7,13 +7,14 @@
     <target name="local">
         <build-component properties="rollup.properties" target="local"/>
     </target>
-    <target name="deploy">
+    <target name="deploy" depends="clean">
         <build-component properties="rollup.properties" target="deploy"/>
     </target>
-    <target name="all">
+    <target name="all" depends="clean">
         <build-component properties="rollup.properties" target="all"/>
     </target>
     <target name="clean">
+        <delete dir="build"/>
         <build-component properties="rollup.properties" target="clean"/>
         <ant target="clean" antfile="components.xml"/>
     </target>
