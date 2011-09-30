@@ -5,6 +5,13 @@ Upstage is a slideshow system that runs in a web browser. It's powered by [YUI][
 
 Upstage is inspired by S5 and S6, which are similar and do much more than this project. This project does nothing more than what I need.
 
+Warning: Refactor!
+------------------
+
+This branch is being refectored into a Widget-based design. Some files may be inconsistent.
+
+Switch to master for the stable version.
+
 Using Upstage
 -------------
 
