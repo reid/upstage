@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    
+    <title>Getting Started with Upstage</title>
+    <meta name="author" content="Reid Burke">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1024, user-scalable=no">
+
+    <link rel="stylesheet" href="build/upstage-deck-core.css">
+</head>
+
+<body>
+
+<div id="bd">
+
+<div class="deck-container presentation">
+
+    <div class="slide title">
+        <h1>Upstage</h1>
+    </div>
+
+    <div class="slide" id="how">
+        <h2>How Does It Work?</h2>
+        <ol>
+            <li>
+                <h3>Create Slides</h3>
+                <p>Slide content is HTML, plain and simple.</p>
+            </li>
+            <li>
+                <h3>Tweak Styles</h3>
+                <p>Upstage can be used with deck.js themes.</p>
+            </li>
+            <li>
+                <h3>Extend and Enjoy</h3>
+                <p>Built on YUI 3's rock-solid Widget architecture.</p>
+            </li>
+        </ol>
+    </div>
+
+    <div class="slide" id="architecture">
+
+        <h2>Architecture</h2>
+        <p>The Upstage core provides the architecture for the presentation. Make it useful by plugging in some of these:</p>
+        
+        <ul>
+            <li class="slide" id="architecture-keyboard">
+                <strong>UpstageKeyboard</strong>: Adds keyboard navigation.
+            </li>
+            
+            <li class="slide" id="architecture-blanker">
+                <strong>UpstageBlanker</strong>: Simple screen blanking.
+            </li>
+
+            <li class="slide" id="architecture-controls">
+                <strong>UpstageControls</strong>: On-screen navigation controls.
+            </li>
+
+            <li class="slide" id="architecture-permalink">
+                <strong>UpstagePermalink</strong>: Provides permalinks to slides that are unique per-slide.
+            </li>
+        </ul>
+    </div>
+
+<!-- .presentation -->
+</div>
+
+<!-- #bd -->
+</div>
+
+<script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
+<script>
+    /*
+    if (!window.YUI) {
+        // Retry with a local URL.
+        document.write('<script src="yui3/build/yui/yui.js"><\/script>');
+        // Don't autodetect the base path (the CDN path didn't work).
+        document.write('<script>YUI.config.base = "yui3/build/";<\/script>');
+    }
+*/
+</script>
+<script>
+    YUI({
+        modules: {
+            "upstage-controls": {
+                fullpath: "build/upstage-controls.js",
+                requires: ["upstage-slideshow", "widget", "transition", "node"]
+            },
+            "upstage-gesture": {
+                fullpath: "build/upstage-gesture.js",
+                requires: ["upstage-slideshow", "event-move"]
+            },
+            "upstage-keyboard": {
+                fullpath: "build/upstage-keyboard.js",
+                requires: ["upstage-slideshow", "plugin", "event-key"]
+            },
+            "upstage-l10n": {
+                fullpath: "build/upstage-l10n.js",
+                requires: ["intl"],
+                lang: ["en"]
+            },
+            "upstage-permalink": {
+                fullpath: "build/upstage-permalink.js",
+                requires: ["upstage-slideshow", "node", "history", "selection"]
+            },
+            "upstage-slideshow": {
+                fullpath: "build/upstage-slideshow.js",
+                requires: ["oop", "node", "widget"]
+            },
+            "upstage-transition-fade": {
+                fullpath: "build/upstage-transition-fade.js",
+                requires: ["upstage-slideshow", "transition", "async-queue"]
+            }
+        },
+        debug: true,
+        filter: "raw"
+    }).use(
+        // NB: Only the modules used here are
+        // converted to the new architecture.
+        "upstage-slideshow",
+        "upstage-keyboard",
+        function (Y) {
+            var deck = new Y.Upstage({
+                srcNode: "#bd"
+            });
+            deck.plug(Y.Plugin.UpstageKeyboard);
+            deck.render();
+        }
+    );
+</script>
+
+</body>
+
+</html>

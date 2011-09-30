@@ -9,76 +9,140 @@
 // at Yahoo! Inc.
 // It's free to use under the [BSD license](http://developer.yahoo.com/yui/license.html).
 
-// Create a namespace: `Y.Upstage`.
-Y.namespace("Upstage");
-var Upstage = Y.Upstage;
+Y.Node.addMethod("parentsUntil", function parentsUntil (parentNode) {
+    return this.ancestors(function (currentNode) {
+        return !currentNode.compareTo(parentNode);
+    });
+});
 
-// Upstage is an evented presentation system.
-// Make `Y.Upstage` an `EventTarget`.
+function Upstage() {
+    Upstage.superclass.constructor.apply(this, arguments);
+}
+
+Upstage.NAME = Upstage.CSS_PREFIX =  "upstage";
+
+Upstage.ATTRS = {
+    container: {
+        value: null
+    },
+    slides: {
+        value: []
+    },
+    currentSlide: {
+        value: 1
+    },
+    classes: {
+        value: {
+            container: "deck-container",
+            slides: "slide",
+            after: "deck-after",
+            before: "deck-before",
+            current: "deck-current",
+            childCurrent: "deck-child-current",
+            next: "deck-next",
+            onPrefix: "on-slide-",
+            previous: "deck-previous"
+        }
+    }
+};
+
+Y.extend(Upstage, Y.Widget, {
+    initializer: function () {
+        var container, slides;
+        var srcNode = this.get("srcNode");
+        var classes = this.get("classes");
+
+        container = srcNode.one("." + classes.container);
+        if (container) {
+            slides = container.all("." + classes.slides);
+        } else {
+            throw new Error("WTF?");
+        }
+
+        this.set("container", container);
+        this.set("slides", slides);
+    },
+    _snapToBounds: function (index) {
+        index = Math.max(1, index);
+        index = Math.min(index, this.get("slides").size());
+        return index;
+    },
+    bindUI: function () {
+        this.publish("warp", {
+            emitFacade: true,
+            defaultFn: function (ev, mouseEvent) {
+                if (mouseEvent && mouseEvent.halt) {
+                    // prevent navigation to "#"
+                    mouseEvent.halt();
+                }
+                this.fire("navigate", this.get("currentSlide") + ev.details[0]);
+            }
+        });
+
+        this.publish("navigate", {
+            emitFacade: true,
+            defaultFn: function (ev) {
+                var nextIndex = ev.details[0];
+                nextIndex = this._snapToBounds(nextIndex);
+                if (!isNaN(nextIndex)) {
+                    this.set("currentSlide", nextIndex);
+                    this._updateState();
+                } else {
+                    Y.log("ignoring bogus index");
+                }
+            }
+        });
+    },
+    syncUI: function () {
+        this.fire("navigate", this.get("currentSlide"));
+    },
+    _updateState: function () {
+        var classes = this.get("classes");
+        var container = this.get("container");
+        var slides = this.get("slides");
+        var current = this.get("currentSlide") - 1;
+
+        // not the previous slide, per-se.
+        // just the one that's about tbe be navigated away from.
+        var lastSlide = container.one("." + classes.current);
+
+        var currentSlide = slides.item(current);
+
+        Y.Array.each([
+            classes.before,
+            classes.previous,
+            classes.next,
+            classes.after,
+            classes.current
+        ], slides.removeClass, slides);
+
+        currentSlide.addClass(classes.current);
+
+        if (lastSlide) {
+            // Last slide doesn't exist on startup.
+            lastSlide.parentsUntil(container).removeClass(classes.childCurrent);
+        }
+        currentSlide.parentsUntil(container).addClass(classes.childCurrent);
+
+        var slideTotal = slides.size();
+
+        if (current > 0) {
+            slides.item(current - 1).addClass(classes.previous);
+        }
+        if (current + 1 < slideTotal) {
+            slides.item(current + 1).addClass(classes.next);
+        }
+        if (current > 1) {
+            slides.slice(0, current - 1).addClass(classes.before);
+        }
+        if (current + 2 < slideTotal) {
+            slides.slice(current + 2).addClass(classes.after);
+        }
+        this.fire("widget:contentUpdate");
+    }
+});
+
 Y.augment(Upstage, Y.EventTarget);
 
-// Fired by the presentation when everything is ready.
-Upstage.on("start", function () {
-
-    // Freeze `Y.UpstageL10N` into `Y.Upstage.L10N`.
-    Y.mix(Upstage, {
-        L10N : Y.UpstageL10N
-    });
-
-    // Give every slide a `#slide{n}` id.
-    Y.all(".slide").each(function (node, idx) {
-        idx++;
-        node.set("id", "slide" + idx);
-        node.setData("slide", idx);
-    });
-
-    // Navigate to slide 1.
-    Upstage.fire("position", 1);
-
-});
-
-// Give a relative number of steps to navigate to.
-Upstage.on("warp", function (rel, mouseEvent) {
-    if (mouseEvent && mouseEvent.halt) mouseEvent.halt(); // prevent navigation to "#"
-
-    var idx = Upstage.currentSlide + parseInt(rel, 10);
-
-    Y.log("warp: to slide " + idx + " from slide " + Upstage.currentSlide);
-    Upstage.fire("position", idx);
-});
-
-// Give the slide number you'd like to navigate to.
-Upstage.on("position", function (next) {
-    // Can't go earlier than the first slide.
-    // Can't go further than the last slide.
-    next = Math.max(1, next);
-    next = Math.min(next, Y.all(".slide").size());
-    Y.log("position: should the next slide be " + next);
-
-    var previous = Upstage.currentSlide || 1;
-    Upstage.currentSlide = parseInt(next, 10);
-
-    if (previous != next) {
-        Y.log("position: yes, firing transition and navigate");
-
-        // Fired only when navigation is happening.
-        // No default handlers.
-        Upstage.fire("navigate", next);
-
-        Upstage.fire("transition",
-            Y.one("#slide" + previous),
-            Y.one("#slide" + next)
-        );
-    }
-});
-
-// Moves from slide (node) A to B. May be overriden with `preventDefault`.
-Upstage.publish("transition", {
-    emitFacade : true,
-    defaultFn : function (ev) {
-        var prev = ev.details[0],
-            next = ev.details[1];
-        prev.setStyle("display", "none");
-        next.setStyle("display", "block");
-    }
-});
+Y.namespace("Upstage");
+Y.Upstage = Upstage;
