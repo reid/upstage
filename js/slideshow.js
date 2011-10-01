@@ -29,7 +29,7 @@ Upstage.ATTRS = {
         value: []
     },
     currentSlide: {
-        value: 1
+        value: -1
     },
     classes: {
         value: {
@@ -61,13 +61,9 @@ Y.extend(Upstage, Y.Widget, {
 
         this.set("container", container);
         this.set("slides", slides);
+        this._publishEvents();
     },
-    _snapToBounds: function (index) {
-        index = Math.max(1, index);
-        index = Math.min(index, this.get("slides").size());
-        return index;
-    },
-    bindUI: function () {
+    _publishEvents: function () {
         this.publish("warp", {
             emitFacade: true,
             defaultFn: function (ev, mouseEvent) {
@@ -83,18 +79,38 @@ Y.extend(Upstage, Y.Widget, {
             emitFacade: true,
             defaultFn: function (ev) {
                 var nextIndex = ev.details[0];
-                nextIndex = this._snapToBounds(nextIndex);
-                if (!isNaN(nextIndex)) {
+                var validated = false;
+                nextIndex = this.snapToBounds(nextIndex);
+                if (isNaN(nextIndex)) {
+                    Y.log("Invalid index, ignoring.", "info", "upstage");
+                } else if (nextIndex != ev.details[0]) {
+                    Y.log("Index out of bounds, ignoring.", "info", "upstage");
+                } else if (nextIndex === this.get("currentSlide")) {
+                    Y.log("Nothing changed, ignoring.", "info", "upstage");
+                } else {
+                    validated = true;
+                }
+                if (validated) {
+                    Y.log("Navigating to slide: " + nextIndex, "info", "upstage");
                     this.set("currentSlide", nextIndex);
                     this._updateState();
                 } else {
-                    Y.log("ignoring bogus index");
+                    ev.stopImmediatePropagation();
                 }
             }
         });
     },
+    snapToBounds: function (index) {
+        index = Math.min(index, this.get("slides").size());
+        index = Math.max(1, index);
+        return index;
+    },
     syncUI: function () {
-        this.fire("navigate", this.get("currentSlide"));
+        var currentSlide = this.get("currentSlide");
+        if (currentSlide === -1) {
+            Y.log("Firing navigate since no navigation occured at startup.", "info", "upstage");
+            this.fire("navigate", 1);
+        }
     },
     _updateState: function () {
         var classes = this.get("classes");

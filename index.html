@@ -70,17 +70,17 @@
 
 <!-- #bd -->
 </div>
-
+<!--
 <script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
+-->
+<script src="yui3/build/yui/yui.js"></script>
 <script>
-    /*
     if (!window.YUI) {
         // Retry with a local URL.
         document.write('<script src="yui3/build/yui/yui.js"><\/script>');
         // Don't autodetect the base path (the CDN path didn't work).
         document.write('<script>YUI.config.base = "yui3/build/";<\/script>');
     }
-*/
 </script>
 <script>
     YUI({
@@ -103,11 +103,11 @@
                 lang: ["en"]
             },
             "upstage-permalink": {
-                fullpath: "build/upstage-permalink.js",
-                requires: ["upstage-slideshow", "node", "history", "selection"]
+                fullpath: "build/upstage-permalink-debug.js",
+                requires: ["upstage-slideshow", "node", "plugin", "history", "selection"]
             },
             "upstage-slideshow": {
-                fullpath: "build/upstage-slideshow.js",
+                fullpath: "build/upstage-slideshow-debug.js",
                 requires: ["oop", "node", "widget"]
             },
             "upstage-transition-fade": {
@@ -122,11 +122,15 @@
         // converted to the new architecture.
         "upstage-slideshow",
         "upstage-keyboard",
+        "upstage-permalink",
         function (Y) {
             var deck = new Y.Upstage({
                 srcNode: "#bd"
             });
-            deck.plug(Y.Plugin.UpstageKeyboard);
+            deck.plug([
+                Y.Plugin.UpstageKeyboard,
+                Y.Plugin.UpstagePermalink
+            ]);
             deck.render();
         }
     );
