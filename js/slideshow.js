@@ -62,6 +62,30 @@ Y.extend(Upstage, Y.Widget, {
         this.set("container", container);
         this.set("slides", slides);
         this._publishEvents();
+        this._detectFeatures();
+    },
+    _detectFeatures: function () {
+        // deck.js compat
+        var srcNode = this.get("srcNode"),
+            style = Y.config.doc.documentElement.style,
+            prefixes = "Webkit Moz O ms Khtml".split(" "), // warning: khtml will be skipped
+            transformProperties = prefixes
+                .join("Transform,").split(","),
+            transitionProperties = prefixes
+                .join("TransitionProperty,").split(",");
+
+        function testStyle (property) {
+            return property in style;
+        }
+
+        console.log(transformProperties);
+
+        if (Y.Array.some(transformProperties, testStyle)) {
+            srcNode.addClass("csstransforms");
+        }
+        if (Y.Array.some(transitionProperties, testStyle)) {
+            srcNode.addClass("csstransitions");
+        }
     },
     _publishEvents: function () {
         this.publish("warp", {
