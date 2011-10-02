@@ -1,68 +1,78 @@
 // This module provides an event that blanks the screen.
 
-var Upstage = Y.Upstage,
-    // The ID of the curtain, the element that covers the slideshow.
-    CURTAIN_ID = "upstage-curtain",
-    ON = "blank:on",
-    OFF = "blank:off",
-    curtain,
-    blanked = false;
+var Upstage = Y.Upstage;
 
-// Create the curtain.
-Upstage.on("start", function () {
-
-    var div = Y.Node.create("<div id='" + CURTAIN_ID + "'></div>");
-
-    div.setStyles({
-        background : "#000",
-        position : "absolute",
-        top : 0,
-        left : 0,
-        width : "100%",
-        height : "100%",
-        zIndex : "100",
-        display : "none"
-    });
-
-    Y.one("body").append(div);
-
-    curtain = div;
-
-    // Unblank the screen when the curtain is clicked.
-    curtain.on("click", Y.bind(Upstage.fire, Upstage, "blank:off"));
-
-});
-
-// Toggle screen blanking.
-Upstage.on("blank", function () {
-
-    if (!blanked) Upstage.fire(ON);
-    else Upstage.fire(OFF);
-
-});
-
-function error () {
-    return Y.error("Curtain not found.");
+function UpstageBlank (config) {
+    UpstageBlank.superclass.constructor.apply(this, arguments);
 }
 
-// Blank the screen.
-Upstage.on(ON, function () {
+UpstageBlank.NS = "blank";
 
-    if (!curtain) return error();
+UpstageBlank.NAME = "upstage-blank";
 
-    curtain.setStyle("display", "block");
+UpstageBlank.ATTRS = {
+    background: {
+        value: "#000"
+    },
+    keycode: {
+        value: 66 // B
+    },
+    curtain: {
+        value: null
+    }
+};
 
-    blanked = true;
+Y.extend(UpstageBlank, Y.Plugin.Base, {
+    initializer: function (config) {
+        this._createCurtain();
+        var curtain = this.get("curtain");
+        var plugin = this;
+        this.onHostEvent("keydown", function (ev) {
+            var keycode = ev.details[0].keyCode;
+            if (keycode == plugin.get("keycode")) {
+                if (plugin.get("dropped")) {
+                    plugin.lift();
+                } else {
+                    plugin.drop();
+                }
+                ev.halt();
+            } else {
+                plugin.lift();
+            }
+        });
+    },
+    destructor: function () {
+        this.get("curtain").remove(true);
+    },
+    drop: function () {
+        this.set("dropped", true);
+        this.get("curtain").setStyle("display", "block");
+    },
+    lift: function () {
+        this.set("dropped", false);
+        this.get("curtain").setStyle("display", "none");
+    },
+    _createCurtain: function () {
+        var div = Y.Node.create("<div></div>");
 
+        div.setStyles({
+            background : this.get("background"),
+            position : "absolute",
+            top : 0,
+            left : 0,
+            width : "100%",
+            height : "100%",
+            zIndex : "100",
+            display : "none"
+        });
+
+        // Unblank the screen when the curtain is clicked.
+        div.on("click", Y.bind("lift", this));
+
+        Y.one("body").append(div);
+
+        this.set("curtain", div);
+    }
 });
 
-// Unblank the screen.
-Upstage.on(OFF, function () {
-
-    if (!curtain) return error();
-
-    curtain.setStyle("display", "none");
-
-    blanked = false;
-
-});
+Y.Plugin.UpstageBlank = UpstageBlank;

@@ -9,18 +9,24 @@ UpstageKeyboard.NAME = "upstage-keyboard";
 
 Y.extend(UpstageKeyboard, Y.Plugin.Base, {
     initializer: function (config) {
-        Y.one(Y.config.doc).on("key", Y.bind("keydown", this), "down:");
+        var host = this.get("host");
+
+        host.publish("keydown", {
+            emitFacade: true
+        });
+        this.onHostEvent("keydown", Y.bind("keydown", this));
+
+        Y.one(Y.config.doc).on("key", Y.bind("fire", host, "keydown"), "down:");
     },
     destructor: function (config) {
-        Y.one(Y.config.doc).detach("key", Y.bind("keydown", this));
+        Y.one(Y.config.doc).detach("key", Y.bind("fire", this.get("host"), "keydown"));
     },
     keydown: function (ev) {
         var host = this.get("host");
 
         Y.log(ev.type + ": " + ev.keyCode, "debug", "upstage-keyboard");
 
-        // Unblank the screen for all keys except B.
-        if (ev.keyCode != 66) host.fire("blank:off");
+        var handled = true;
 
         switch (ev.keyCode) {
             case 32: // space bar
@@ -40,12 +46,13 @@ Y.extend(UpstageKeyboard, Y.Plugin.Base, {
             case 35: // end
                 host.fire("navigate", 9999);
                 break;
-            case 66: // B
-                host.fire("blank");
-                break;
             default:
-                host.fire("keydown", ev.keyCode);
+                handled = false;
                 break;
+        }
+
+        if (handled) {
+            ev.halt();
         }
     }
 });

@@ -85,6 +85,10 @@
 <script>
     YUI({
         modules: {
+            "upstage-blank": {
+                fullpath: "build/upstage-blank-debug.js",
+                requires: ["upstage-slideshow", "plugin"]
+            },
             "upstage-controls": {
                 fullpath: "build/upstage-controls.js",
                 requires: ["upstage-slideshow", "widget", "transition", "node"]
@@ -124,12 +128,14 @@
         "upstage-keyboard",
         "upstage-permalink",
         "upstage-gesture",
+        "upstage-blank",
         function (Y) {
             var deck = new Y.Upstage({
                 srcNode: "#bd"
             });
             deck.plug([
                 Y.Plugin.UpstageKeyboard,
+                Y.Plugin.UpstageBlank,
                 Y.Plugin.UpstageGesture,
                 Y.Plugin.UpstagePermalink
             ]);
