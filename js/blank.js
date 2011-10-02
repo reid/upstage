@@ -30,11 +30,7 @@ Y.extend(UpstageBlank, Y.Plugin.Base, {
         this.onHostEvent("keydown", function (ev) {
             var keycode = ev.details[0].keyCode;
             if (keycode == plugin.get("keycode")) {
-                if (plugin.get("dropped")) {
-                    plugin.lift();
-                } else {
-                    plugin.drop();
-                }
+                plugin.drop(!plugin.get("dropped"));
                 ev.halt();
             } else {
                 plugin.lift();
@@ -44,13 +40,9 @@ Y.extend(UpstageBlank, Y.Plugin.Base, {
     destructor: function () {
         this.get("curtain").remove(true);
     },
-    drop: function () {
-        this.set("dropped", true);
-        this.get("curtain").setStyle("display", "block");
-    },
-    lift: function () {
-        this.set("dropped", false);
-        this.get("curtain").setStyle("display", "none");
+    drop: function (hide) {
+        this.set("dropped", hide);
+        this.get("curtain").setStyle("display", hide ? "block" : "none");
     },
     _createCurtain: function () {
         var div = Y.Node.create("<div></div>");
@@ -67,7 +59,7 @@ Y.extend(UpstageBlank, Y.Plugin.Base, {
         });
 
         // Unblank the screen when the curtain is clicked.
-        div.on("click", Y.bind("lift", this));
+        div.on("click", Y.bind("drop", this, false));
 
         Y.one("body").append(div);
 
