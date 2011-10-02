@@ -90,11 +90,11 @@
                 requires: ["upstage-slideshow", "widget", "transition", "node"]
             },
             "upstage-gesture": {
-                fullpath: "build/upstage-gesture.js",
-                requires: ["upstage-slideshow", "event-move"]
+                fullpath: "build/upstage-gesture-debug.js",
+                requires: ["upstage-slideshow", "plugin", "event-move"]
             },
             "upstage-keyboard": {
-                fullpath: "build/upstage-keyboard.js",
+                fullpath: "build/upstage-keyboard-debug.js",
                 requires: ["upstage-slideshow", "plugin", "event-key"]
             },
             "upstage-l10n": {
@@ -123,12 +123,14 @@
         "upstage-slideshow",
         "upstage-keyboard",
         "upstage-permalink",
+        "upstage-gesture",
         function (Y) {
             var deck = new Y.Upstage({
                 srcNode: "#bd"
             });
             deck.plug([
                 Y.Plugin.UpstageKeyboard,
+                Y.Plugin.UpstageGesture,
                 Y.Plugin.UpstagePermalink
             ]);
             deck.render();

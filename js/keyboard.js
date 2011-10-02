@@ -11,10 +11,13 @@ Y.extend(UpstageKeyboard, Y.Plugin.Base, {
     initializer: function (config) {
         Y.one(Y.config.doc).on("key", Y.bind("keydown", this), "down:");
     },
+    destructor: function (config) {
+        Y.one(Y.config.doc).detach("key", Y.bind("keydown", this));
+    },
     keydown: function (ev) {
         var host = this.get("host");
 
-        Y.log("upstage-keyboard: " + ev.type + ": " + ev.keyCode);
+        Y.log(ev.type + ": " + ev.keyCode, "debug", "upstage-keyboard");
 
         // Unblank the screen for all keys except B.
         if (ev.keyCode != 66) host.fire("blank:off");
@@ -32,13 +35,16 @@ Y.extend(UpstageKeyboard, Y.Plugin.Base, {
                 host.fire("warp", -1);
                 break;
             case 36: // home
-                host.fire("position", 1);
+                host.fire("navigate", 1);
                 break;
             case 35: // end
-                host.fire("position", 9999);
+                host.fire("navigate", 9999);
                 break;
             case 66: // B
                 host.fire("blank");
+                break;
+            default:
+                host.fire("keydown", ev.keyCode);
                 break;
         }
     }

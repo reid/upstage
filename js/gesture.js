@@ -2,89 +2,105 @@
 
 var Upstage = Y.Upstage;
 
-// Pixel distance for considering gesture as a swipe.
-var MIN_SWIPE = 10;
-
-// Milliseconds for considering tap as held.
-var MIN_HOLD = 500;
-
-// Helper for event publishing.
-function publish (name, event, value) {
-    Upstage.publish(name, {
-        emitFacade : true,
-        defaultFn : Y.bind(Upstage.fire, Upstage, event, value)
-    });
+function UpstageGesture (config) {
+    UpstageGesture.superclass.constructor.apply(this, arguments);
 }
 
-// Publish some gesture-related events.
-publish("ui:tap", "warp", 1);
-publish("ui:heldtap", "position", 1);
-publish("ui:swipeleft", "warp", 1);
-publish("ui:swiperight", "warp", -1);
+UpstageGesture.NS = "gesture";
 
-// Shorthand for `Upstage.fire`.
-var fire = Y.bind(Upstage.fire, Upstage);
+UpstageGesture.NAME = "upstage-gesture";
 
-// The gesture is over. Do something with it.
-function gestureEnd (targetStart, ev) {
+UpstageGesture.ATTRS = {
+    // Pixel distance for considering gesture as a swipe.
+    swipeDistance: {
+        value: 10
+    },
+    // Milliseconds for considering tap as held.
+    tapHoldThreshold: {
+        value: 500
+    }
+};
 
-    var xStart = targetStart.getData("gestureX"),
-        xEnd = ev.pageX;
+Y.extend(UpstageGesture, Y.Plugin.Base, {
+    initializer: function (config) {
+        this.get("host").get("srcNode").on("gesturemovestart",
+            Y.bind("gesture", this),
+            this.get("host").get("srcNode"));
+        this._publishEvents();
+    },
+    destructor: function () {
+        this.get("host").get("srcNode").detach("gesturemovestart",
+            Y.bind("gesture", this));
+    },
+    _publishEvents: function () {
+        var plugin = this,
+            host = plugin.get("host");
 
-    if ( (xStart - xEnd) > MIN_SWIPE ) {
-        fire("ui:swipeleft", targetStart);
-    } else if ( (xEnd - xStart) > MIN_SWIPE ) {
-        fire("ui:swiperight", targetStart);
-    } else {
-
-        var timeStart = targetStart.getData("gestureDate").getTime(),
-            timeEnd = (new Date).getTime(),
-            timeDelta = timeEnd - timeStart;
-
-        if ( timeDelta > MIN_HOLD ) {
-            fire("ui:heldtap", timeDelta);
-        } else {
-            fire("ui:tap", timeDelta);
+        // Helper for event publishing.
+        function publish (name, event, value) {
+            host.publish(name, {
+                emitFacade: true
+            });
+            plugin.onHostEvent(name, Y.bind("fire", host, event, value));
         }
 
-    }
+        // Publish some gesture-related events on the host.
+        publish("ui:tap", "warp", 1);
+        publish("ui:heldtap", "navigate", 1);
+        publish("ui:swipeleft", "warp", 1);
+        publish("ui:swiperight", "warp", -1);
+    },
+    gestureEnd: function (targetStart, ev) {
+        var host = this.get("host"),
+            xStart = targetStart.getData("gestureX"),
+            xEnd = ev.pageX,
+            swipeDistance = this.get("swipeDistance");
 
-}
+        if ( (xStart - xEnd) > swipeDistance ) {
+            host.fire("ui:swipeleft", targetStart);
+        } else if ( (xEnd - xStart) > swipeDistance ) {
+            host.fire("ui:swiperight", targetStart);
+        } else {
 
-// The gesture has begun. Do we care?
-function gesture (ev) {
+            var timeStart = targetStart.getData("gestureDate").getTime(),
+                timeEnd = (new Date).getTime(),
+                timeDelta = timeEnd - timeStart;
 
-    // Forget about taps or clicks on buttons or links.
-    switch (ev.target.get("tagName").toUpperCase()) {
-        case "A":
-        case "INPUT":
-        case "BUTTON":
-        case "VIDEO":
-        case "OBJECT":
-            return;
-    }
+            if ( timeDelta > this.get("tapHoldThreshold") ) {
+                host.fire("ui:heldtap", timeDelta);
+            } else {
+                host.fire("ui:tap", timeDelta);
+            }
+        }
+    },
+    gesture: function (ev) {
+        // Forget about taps or clicks on buttons or links.
+        switch (ev.target.get("tagName").toUpperCase()) {
+            case "A":
+            case "INPUT":
+            case "BUTTON":
+            case "VIDEO":
+            case "OBJECT":
+                return;
+        }
 
-    // Otherwise, game on!
-
-    ev.preventDefault();
-
-    var target = ev.currentTarget;
-
-    // Prevent text selection in IE.
-    target.once("selectstart", function (ev) {
+        // Otherwise, game on!
         ev.preventDefault();
-    });
 
-    // Set some data for later.
-    target.setData("gestureX", ev.pageX);
-    target.setData("gestureDate", new Date);
+        var target = ev.currentTarget;
 
-    // Bind the `gestureEnd` handler just this once.
-    target.once("gesturemoveend", Y.bind(gestureEnd, this, target));
+        // Prevent text selection in IE.
+        target.once("selectstart", function (ev) {
+            ev.preventDefault();
+        });
 
-}
+        // Set some data for later.
+        target.setData("gestureX", ev.pageX);
+        target.setData("gestureDate", new Date);
 
-Upstage.on("start", function () {
-    // When you make a gesture on a slide, we'll handle it.
-    Y.one("body").delegate("gesturemovestart", gesture, ".slide");
+        // Bind the `gestureEnd` handler just this once.
+        target.once("gesturemoveend", Y.bind("gestureEnd", this, target));
+    }
 });
+
+Y.Plugin.UpstageGesture = UpstageGesture;
