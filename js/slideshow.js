@@ -22,11 +22,8 @@ function Upstage() {
 Upstage.NAME = Upstage.CSS_PREFIX =  "upstage";
 
 Upstage.ATTRS = {
-    container: {
-        value: null
-    },
     slides: {
-        value: []
+        value: null
     },
     currentSlide: {
         value: -1
@@ -34,7 +31,6 @@ Upstage.ATTRS = {
     classes: {
         value: {
             container: "deck-container",
-            slides: "slide",
             after: "deck-after",
             before: "deck-before",
             current: "deck-current",
@@ -46,27 +42,19 @@ Upstage.ATTRS = {
     }
 };
 
+Upstage.HTML_PARSER = {
+    slides: [".slide"]
+};
+
 Y.extend(Upstage, Y.Widget, {
     initializer: function () {
-        var container, slides;
-        var srcNode = this.get("srcNode");
-        var classes = this.get("classes");
-
-        container = srcNode.one("." + classes.container);
-        if (container) {
-            slides = container.all("." + classes.slides);
-        } else {
-            throw new Error("WTF?");
-        }
-
-        this.set("container", container);
-        this.set("slides", slides);
+        this.get("contentBox").addClass(this.get("classes").container);
         this._publishEvents();
         this._detectFeatures();
     },
     _detectFeatures: function () {
         // deck.js compat
-        var srcNode = this.get("srcNode"),
+        var boundingBox = this.get("boundingBox"),
             style = Y.config.doc.documentElement.style,
             prefixes = "Webkit Moz O ms Khtml".split(" "), // warning: khtml will be skipped
             transformProperties = prefixes
@@ -81,10 +69,10 @@ Y.extend(Upstage, Y.Widget, {
         console.log(transformProperties);
 
         if (Y.Array.some(transformProperties, testStyle)) {
-            srcNode.addClass("csstransforms");
+            boundingBox.addClass("csstransforms");
         }
         if (Y.Array.some(transitionProperties, testStyle)) {
-            srcNode.addClass("csstransitions");
+            boundingBox.addClass("csstransitions");
         }
     },
     _publishEvents: function () {
@@ -138,13 +126,13 @@ Y.extend(Upstage, Y.Widget, {
     },
     _updateState: function () {
         var classes = this.get("classes");
-        var container = this.get("container");
+        var contentBox = this.get("contentBox");
         var slides = this.get("slides");
         var current = this.get("currentSlide") - 1;
 
         // not the previous slide, per-se.
         // just the one that's about tbe be navigated away from.
-        var lastSlide = container.one("." + classes.current);
+        var lastSlide = contentBox.one("." + classes.current);
 
         var currentSlide = slides.item(current);
 
@@ -160,9 +148,9 @@ Y.extend(Upstage, Y.Widget, {
 
         if (lastSlide) {
             // Last slide doesn't exist on startup.
-            lastSlide.parentsUntil(container).removeClass(classes.childCurrent);
+            lastSlide.parentsUntil(contentBox).removeClass(classes.childCurrent);
         }
-        currentSlide.parentsUntil(container).addClass(classes.childCurrent);
+        currentSlide.parentsUntil(contentBox).addClass(classes.childCurrent);
 
         var slideTotal = slides.size();
 
