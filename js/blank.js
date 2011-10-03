@@ -33,7 +33,7 @@ Y.extend(UpstageBlank, Y.Plugin.Base, {
                 plugin.drop(!plugin.get("dropped"));
                 ev.halt();
             } else {
-                plugin.lift();
+                plugin.drop(false);
             }
         });
     },
