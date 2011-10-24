@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    
+    <title>Getting Started with Upstage</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1024, user-scalable=no">
+
+    <link rel="stylesheet" href="build/upstage-deck-core-min.css">
+    <link rel="stylesheet" href="transition.css">
+</head>
+
+<body>
+
+<div id="bd" class="deck-container">
+
+    <div class="slide title">
+        <h1>Welcome to Upstage</h1>
+        <p>Left arrow or swipe left to continue!</p>
+    </div>
+
+    <div class="slide" id="how">
+        <h2>How Does It Work?</h2>
+        <p>Upstage is a slideshow system built on <a href="http://yuilibrary.com/">YUI 3</a>.</p>
+        <ol>
+            <li>
+                <h3>Create Slides</h3>
+                <p>Slides are plain old HTML.</p>
+            </li>
+            <li>
+                <h3>Tweak Styles</h3>
+                <p>Upstage can be used with deck.js themes.</p>
+            </li>
+            <li>
+                <h3>Extend and Enjoy</h3>
+                <p>Built on YUI's rock-solid Widget architecture.</p>
+            </li>
+        </ol>
+
+        <div class="slide" id="getting-started">
+            <h3>Getting Started</h3>
+            <ol>
+                <li>Get the <a href="https://github.com/reid/upstage/tree/widget">Upstage widget branch</a>.</li>
+                <li>Copy <code>index.html</code> and the <code>build</code> directory to another directory.</li>
+                <li>Start writing!</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="slide" id="architecture">
+
+        <h2>Architecture</h2>
+        <p>The Upstage core provides the architecture for the presentation. Make it useful by plugging in some of these:</p>
+        
+        <ul>
+            <li class="slide" id="architecture-keyboard">
+                <strong>UpstageKeyboard</strong>: Keyboard navigation.
+            </li>
+
+            <li class="slide" id="architecture-gesture">
+                <strong>UpstageGesture</strong>: Gesture navigation.
+            </li>
+            
+            <li class="slide" id="architecture-blanker">
+                <strong>UpstageBlanker</strong>: Simple screen blanking.
+            </li>
+
+            <li class="slide" id="architecture-permalink">
+                <strong>UpstagePermalink</strong>: Provides permalinks to slides that are unique per-slide.
+            </li>
+        </ul>
+    </div>
+
+<!-- .presentation -->
+</div>
+
+<script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
+<script>
+    if (!window.YUI) {
+        // Retry with a local URL.
+        document.write('<script src="yui3/build/yui/yui.js"><\/script>');
+        // Don't autodetect the base path (the CDN path didn't work).
+        document.write('<script>YUI.config.base = "yui3/build/";<\/script>');
+    }
+</script>
+<script>
+    YUI({
+        modules: {
+            "upstage-blank": {
+                fullpath: "build/upstage-blank-min.js",
+                requires: ["upstage-slideshow", "plugin"]
+            },
+            "upstage-controls": {
+                fullpath: "build/upstage-controls-min.js",
+                requires: ["upstage-slideshow", "widget", "transition", "node"]
+            },
+            "upstage-gesture": {
+                fullpath: "build/upstage-gesture-min.js",
+                requires: ["upstage-slideshow", "plugin", "event-move"]
+            },
+            "upstage-keyboard": {
+                fullpath: "build/upstage-keyboard-min.js",
+                requires: ["upstage-slideshow", "plugin", "event-key"]
+            },
+            "upstage-permalink": {
+                fullpath: "build/upstage-permalink-min.js",
+                requires: ["upstage-slideshow", "node", "plugin", "history", "selection"]
+            },
+            "upstage-slideshow": {
+                fullpath: "build/upstage-slideshow-min.js",
+                requires: ["oop", "node", "widget"]
+            }
+            // For controls plugin-widget:
+            // It should be a sub-Widget, but pluggable into deck.
+            // Also, it should create the prev/next links
+            // unlike deck.js which puts dummy links in markup.
+        },
+        debug: true,
+        filter: "min"
+    }).use(
+        "upstage-slideshow",
+        "upstage-keyboard",
+        "upstage-permalink",
+        "upstage-gesture",
+        "upstage-blank",
+        function (Y) {
+            // Upstage is a YUI widget.
+            var deck = new Y.Upstage({
+                srcNode: "#bd" // Where to find .slide elements.
+            });
+
+            // Upstage does not do much without plugins.
+            // They are all optional. Use only what you need.
+            deck.plug([
+                Y.Plugin.UpstageKeyboard,
+                Y.Plugin.UpstageBlank,
+                Y.Plugin.UpstageGesture,
+                Y.Plugin.UpstagePermalink
+            ]);
+
+            deck.render();
+        }
+    );
+</script>
+
+</body>
+
+</html>
