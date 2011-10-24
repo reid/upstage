@@ -10,9 +10,8 @@
 // It's free to use under the [BSD license](http://developer.yahoo.com/yui/license.html).
 
 Y.Node.addMethod("parentsUntil", function parentsUntil (parentNode) {
-    return this.ancestors(function (currentNode) {
-        return !currentNode.compareTo(parentNode);
-    });
+    // TODO: Fix implementation to parentNode.
+    return this.ancestors();
 });
 
 function Upstage() {
