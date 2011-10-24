@@ -65,8 +65,6 @@ Y.extend(Upstage, Y.Widget, {
             return property in style;
         }
 
-        console.log(transformProperties);
-
         if (Y.Array.some(transformProperties, testStyle)) {
             boundingBox.addClass("csstransforms");
         }
