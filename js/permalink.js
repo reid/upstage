@@ -48,7 +48,8 @@ Y.extend(UpstagePermalink, Y.Plugin.Base, {
                 slideTitle = titleContent;
             } else {
                 var next = host.get("slides").item(index - 1);
-                var h1 = next.one("h1");
+                var h1 = next.one("h1,h2,h3,h4,h5,h6,p");
+                if (!h1) h1 = next;
                 if (h1) slideTitle = getText(h1);
                 if (!slideTitle) slideTitle = plugin.get("strings").slide + " " + index;
                 slideTitle = titleContent + ": " + slideTitle;
