@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     
     <title>Getting Started with Upstage</title>
-    <meta name="author" content="Reid Burke">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=1024, user-scalable=no">
@@ -19,7 +18,7 @@
 <div id="bd" class="deck-container">
 
     <div class="slide title">
-        <h1>Upstage</h1>
+        <h1>Welcome to Upstage</h1>
     </div>
 
     <div class="slide" id="how">
@@ -47,15 +46,15 @@
         
         <ul>
             <li class="slide" id="architecture-keyboard">
-                <strong>UpstageKeyboard</strong>: Adds keyboard navigation.
+                <strong>UpstageKeyboard</strong>: Keyboard navigation.
+            </li>
+
+            <li class="slide" id="architecture-controls">
+                <strong>UpstageGesture</strong>: Gesture navigation.
             </li>
             
             <li class="slide" id="architecture-blanker">
                 <strong>UpstageBlanker</strong>: Simple screen blanking.
-            </li>
-
-            <li class="slide" id="architecture-controls">
-                <strong>UpstageControls</strong>: On-screen navigation controls.
             </li>
 
             <li class="slide" id="architecture-permalink">
@@ -68,9 +67,6 @@
 </div>
 
 <script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
-<!--
-<script src="yui3/build/yui/yui.js"></script>
--->
 <script>
     if (!window.YUI) {
         // Retry with a local URL.
@@ -87,7 +83,7 @@
                 requires: ["upstage-slideshow", "plugin"]
             },
             "upstage-controls": {
-                fullpath: "build/upstage-controls.js",
+                fullpath: "build/upstage-controls-debug.js",
                 requires: ["upstage-slideshow", "widget", "transition", "node"]
             },
             "upstage-gesture": {
@@ -98,11 +94,6 @@
                 fullpath: "build/upstage-keyboard-debug.js",
                 requires: ["upstage-slideshow", "plugin", "event-key"]
             },
-            "upstage-l10n": {
-                fullpath: "build/upstage-l10n.js",
-                requires: ["intl"],
-                lang: ["en"]
-            },
             "upstage-permalink": {
                 fullpath: "build/upstage-permalink-debug.js",
                 requires: ["upstage-slideshow", "node", "plugin", "history", "selection"]
@@ -110,32 +101,35 @@
             "upstage-slideshow": {
                 fullpath: "build/upstage-slideshow-debug.js",
                 requires: ["oop", "node", "widget"]
-            },
-            "upstage-transition-fade": {
-                fullpath: "build/upstage-transition-fade.js",
-                requires: ["upstage-slideshow", "transition", "async-queue"]
             }
+            // For controls plugin-widget:
+            // It should be a sub-Widget, but pluggable into deck.
+            // Also, it should create the prev/next links
+            // unlike deck.js which puts dummy links in markup.
         },
         debug: true,
         filter: "raw"
     }).use(
-        // NB: Only the modules used here are
-        // converted to the new architecture.
         "upstage-slideshow",
         "upstage-keyboard",
         "upstage-permalink",
         "upstage-gesture",
         "upstage-blank",
         function (Y) {
+            // Upstage is a YUI widget.
             var deck = new Y.Upstage({
-                srcNode: "#bd"
+                srcNode: "#bd" // Where to find .slide elements.
             });
+
+            // Upstage does not do much without plugins.
+            // They are all optional. Use only what you need.
             deck.plug([
                 Y.Plugin.UpstageKeyboard,
                 Y.Plugin.UpstageBlank,
                 Y.Plugin.UpstageGesture,
                 Y.Plugin.UpstagePermalink
             ]);
+
             deck.render();
         }
     );
