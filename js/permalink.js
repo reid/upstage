@@ -82,10 +82,11 @@ Y.extend(UpstagePermalink, Y.Plugin.Base, {
     },
     _indexToId: function (index) {
         index = this.get("host").snapToBounds(index);
-        var id = this.get("host").get("slides").item(index - 1).get("id");
+        var slide = this.get("host").get("slides").item(index - 1);
+        var id = slide.get("id");
 
         // Avoid using auto-generated ids, they change on every pageview.
-        if (id.indexOf("yui_3") === 0) {
+        if (id === Y.stamp(slide, true)) {
             id = null;
         }
 
