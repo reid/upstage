@@ -50,11 +50,35 @@ Y.extend(UpstageGesture, Y.Plugin.Base, {
         publish("ui:swipeleft", "warp", 1);
         publish("ui:swiperight", "warp", -1);
     },
+    getSelection: function () {
+        var userSelection = "",
+            selectedText,
+            win = Y.config.win,
+            doc = Y.config.doc;
+
+        if (win.getSelection) {
+            userSelection = win.getSelection();
+        } else if (doc.selection) {
+            userSelection = doc.selection.createRange();
+        }
+
+        selectedText = userSelection;
+        if (userSelection.text) {
+            selectedText = userSelection.text;
+        }
+
+        return selectedText.toString();
+    },
     gestureEnd: function (targetStart, ev) {
         var host = this.get("host"),
             xStart = targetStart.getData("gestureX"),
             xEnd = ev.pageX,
             swipeDistance = this.get("swipeDistance");
+
+        if (this.getSelection()) {
+            Y.log("Text selection found, ignoring gesture.", "info", "upstage-gesture");
+            return;
+        }
 
         if ( (xStart - xEnd) > swipeDistance ) {
             host.fire("ui:swipeleft", targetStart);
@@ -85,14 +109,8 @@ Y.extend(UpstageGesture, Y.Plugin.Base, {
         }
 
         // Otherwise, game on!
-        ev.preventDefault();
 
         var target = ev.currentTarget;
-
-        // Prevent text selection in IE.
-        target.once("selectstart", function (ev) {
-            ev.preventDefault();
-        });
 
         // Set some data for later.
         target.setData("gestureX", ev.pageX);
