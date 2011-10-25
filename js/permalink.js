@@ -1,7 +1,5 @@
 // This module provides browser history and permalinks for your presentation.
 
-var getText = Y.Selection.getText;
-
 function UpstagePermalink (config) {
     UpstagePermalink.superclass.constructor.apply(this, arguments);
 }
@@ -10,12 +8,6 @@ UpstagePermalink.NS = "permalink";
 
 UpstagePermalink.NAME = "upstage-permalink";
 
-UpstagePermalink.HTML_PARSER = {
-    titleContent: function () {
-        return getText(Y.one("title"));
-    }
-};
-
 UpstagePermalink.ATTRS = {
     strings: {
         value: {
@@ -23,7 +15,7 @@ UpstagePermalink.ATTRS = {
         }
     },
     titleContent: {
-        value: ""
+        value: Y.one("title").get("text")
     }
 };
 
@@ -31,10 +23,10 @@ Y.extend(UpstagePermalink, Y.Plugin.Base, {
     initializer: function (config) {
         var plugin = this;
         var history = new Y.HistoryHash;
-        var host = plugin.get("host");
-        var titleContent = getText(Y.one("title"));
+        var host = config.host;
 
         plugin.afterHostEvent("navigate", function (ev) {
+            var titleContent = plugin.get("titleContent");
             var index = ev.details[0];
 
             var hash = plugin._indexToId(index);
@@ -50,7 +42,7 @@ Y.extend(UpstagePermalink, Y.Plugin.Base, {
                 var next = host.get("slides").item(index - 1);
                 var h1 = next.one("h1,h2,h3,h4,h5,h6,p");
                 if (!h1) h1 = next;
-                if (h1) slideTitle = getText(h1);
+                if (h1) slideTitle = h1.get("text");
                 if (!slideTitle) slideTitle = plugin.get("strings").slide + " " + index;
                 slideTitle = titleContent + ": " + slideTitle;
             }
