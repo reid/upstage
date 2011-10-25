@@ -18,6 +18,10 @@ UpstageGesture.ATTRS = {
     // Milliseconds for considering tap as held.
     tapHoldThreshold: {
         value: 500
+    },
+    // Milliseconds for discarding a text selection as a gesture.
+    forceGestureThreshold: {
+        value: 300
     }
 };
 
@@ -73,10 +77,14 @@ Y.extend(UpstageGesture, Y.Plugin.Base, {
         var host = this.get("host"),
             xStart = targetStart.getData("gestureX"),
             xEnd = ev.pageX,
-            swipeDistance = this.get("swipeDistance");
+            swipeDistance = this.get("swipeDistance"),
+            timeStart = targetStart.getData("gestureDate").getTime(),
+            timeEnd = (new Date).getTime(),
+            timeDelta = timeEnd - timeStart;
 
-        if (this.getSelection()) {
-            Y.log("Text selection found, ignoring gesture.", "info", "upstage-gesture");
+        if (this.getSelection() && (timeDelta > this.get("forceGestureThreshold"))) {
+            // TODO: Deselect text if gesture was forced?
+            Y.log("Text selection found and too slow, ignoring gesture.", "info", "upstage-gesture");
             return;
         }
 
@@ -85,11 +93,6 @@ Y.extend(UpstageGesture, Y.Plugin.Base, {
         } else if ( (xEnd - xStart) > swipeDistance ) {
             host.fire("ui:swiperight", targetStart);
         } else {
-
-            var timeStart = targetStart.getData("gestureDate").getTime(),
-                timeEnd = (new Date).getTime(),
-                timeDelta = timeEnd - timeStart;
-
             if ( timeDelta > this.get("tapHoldThreshold") ) {
                 host.fire("ui:heldtap", timeDelta);
             } else {
