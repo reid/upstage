@@ -11,6 +11,9 @@ UpstageGesture.NS = "gesture";
 UpstageGesture.NAME = "upstage-gesture";
 
 UpstageGesture.ATTRS = {
+    gestureEventHandle: {
+        value: null
+    },
     // Pixel distance for considering gesture as a swipe.
     swipeDistance: {
         value: 10
@@ -27,14 +30,18 @@ UpstageGesture.ATTRS = {
 
 Y.extend(UpstageGesture, Y.Plugin.Base, {
     initializer: function (config) {
-        this.get("host").get("srcNode").on("gesturemovestart",
-            Y.bind("gesture", this),
-            this.get("host").get("srcNode"));
+        Y.log("Binding gesturemovestart.", "info", "upstage-gesture");
+        // TODO Work with the host's srcNode?
+        this.set("gestureEventHandle",
+            Y.one("body").on("gesturemovestart",
+                Y.bind("gesture", this)
+            )
+        );
         this._publishEvents();
     },
     destructor: function () {
-        this.get("host").get("srcNode").detach("gesturemovestart",
-            Y.bind("gesture", this));
+        Y.one("body").detach(this.get("gestureEventHandle"));
+        this.set("gestureEventHandle", null);
     },
     _publishEvents: function () {
         var plugin = this,
@@ -87,6 +94,7 @@ Y.extend(UpstageGesture, Y.Plugin.Base, {
             Y.log("Text selection found and too slow, ignoring gesture.", "info", "upstage-gesture");
             return;
         }
+        Y.log("Gesture accepted.", "info", "upstage-gesture");
 
         if ( (xStart - xEnd) > swipeDistance ) {
             host.fire("ui:swipeleft", targetStart);
@@ -115,9 +123,21 @@ Y.extend(UpstageGesture, Y.Plugin.Base, {
 
         var target = ev.currentTarget;
 
+        if (ev._event && ev._event.type === "touchstart") {
+            // Swiping with one finger will scroll the viewport on touch devices.
+            // Prevent scrolling with preventDefault.
+            // This will also disable text selection, but it's better than jitter
+            // while navigating the deck.
+            // TODO: Only preventDefault on gesturemove, iif primary movement on the Y axis?
+            Y.log("Preventing default for touchstart.", "info", "upstage-gesture");
+            ev.preventDefault();
+        }
+
         // Set some data for later.
         target.setData("gestureX", ev.pageX);
         target.setData("gestureDate", new Date);
+
+        Y.log("Gesture setup complete, waiting for gesturemoveend.", "info", "upstage-gesture");
 
         // Bind the `gestureEnd` handler just this once.
         target.once("gesturemoveend", Y.bind("gestureEnd", this, target));
