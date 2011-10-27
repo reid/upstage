@@ -62,7 +62,7 @@ Y.extend(UpstagePermalink, Y.Plugin.Base, {
             idx = plugin._idToIndex(idx);
             if (idx && idx !== host.get("currentSlide")) {
                 Y.log("Valid hash change detected, navigating to slide " + idx, "info", "upstage-permalink");
-                host.fire("navigate", idx);
+                host.set("currentSlide", idx);
             }
         }
 

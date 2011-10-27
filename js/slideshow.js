@@ -84,39 +84,43 @@ Y.extend(Upstage, Y.Widget, {
                     // prevent navigation to "#"
                     mouseEvent.halt();
                 }
-                this.fire("navigate", this.get("currentSlide") + ev.details[0]);
+                this.set("currentSlide", this.get("currentSlide") + ev.details[0]);
             }
         });
 
+        // Legacy event.
         this.publish("navigate", {
-            emitFacade: true,
-            defaultFn: function (ev) {
-                var nextIndex = ev.details[0];
-                var validated = false;
-                nextIndex = this.snapToBounds(nextIndex);
-                if (isNaN(nextIndex)) {
-                    Y.log("Invalid index, ignoring.", "info", "upstage");
-                } else if (nextIndex != ev.details[0]) {
-                    Y.log("Index out of bounds, ignoring.", "info", "upstage");
-                } else if (nextIndex === this.get("currentSlide")) {
-                    Y.log("Nothing changed, ignoring.", "info", "upstage");
-                } else {
-                    validated = true;
-                }
-                if (validated) {
-                    Y.log("Navigating to slide: " + nextIndex, "info", "upstage");
-                    this.set("currentSlide", nextIndex);
-                } else {
-                    ev.stopImmediatePropagation();
-                }
-            }
+            emitFacade: true
         });
     },
     _bindAttributes: function () {
+        this.on("currentSlideChange", function (ev) {
+            var nextIndex = ev.newVal;
+            var validated = false;
+            nextIndex = this.snapToBounds(nextIndex);
+            if (isNaN(nextIndex)) {
+                Y.log("Invalid index, ignoring.", "info", "upstage");
+            } else if (nextIndex != ev.newVal) {
+                Y.log("Index out of bounds, ignoring.", "info", "upstage");
+            } else if (nextIndex === this.get("currentSlide")) {
+                Y.log("Nothing changed, ignoring.", "info", "upstage");
+            } else {
+                validated = true;
+            }
+            if (validated) {
+                Y.log("Navigating to slide: " + nextIndex, "info", "upstage");
+            } else {
+                ev.preventDefault();
+            }
+        });
         this.after("containerClassesChange", function (ev) {
             var contentBox = this.get("contentBox");
             Y.Array.each(ev.prevVal, contentBox.removeClass, contentBox);
             Y.Array.each(ev.newVal, contentBox.addClass, contentBox);
+        });
+        this.after("currentSlideChange", function (ev) {
+            // Fire legacy event.
+            this.fire("navigate", ev.newVal);
         });
         this.after("currentSlideChange", Y.bind("_updateState", this));
         this.after("currentSlideChange", Y.bind("_updateContainerClasses", this));
@@ -144,7 +148,7 @@ Y.extend(Upstage, Y.Widget, {
         var currentSlide = this.get("currentSlide");
         if (currentSlide === -1) {
             Y.log("Firing navigate since no navigation occured at startup.", "info", "upstage");
-            this.fire("navigate", 1);
+            this.set("currentSlide", 1);
         }
     },
     indexToId: function (index) {
