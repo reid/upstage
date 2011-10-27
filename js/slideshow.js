@@ -119,6 +119,21 @@ Y.extend(Upstage, Y.Widget, {
             Y.Array.each(ev.newVal, contentBox.addClass, contentBox);
         });
         this.after("currentSlideChange", Y.bind("_updateState", this));
+        this.after("currentSlideChange", Y.bind("_updateContainerClasses", this));
+    },
+    _updateContainerClasses: function (ev) {
+        var currentIndex = ev.newVal - 1,
+            onPrefix = this.get("classes").onPrefix,
+            containerClasses = [
+                onPrefix + currentIndex
+            ],
+            currentId = this.indexToId(currentIndex);
+
+        if (currentId !== currentIndex) {
+            containerClasses.push(onPrefix + currentId);
+        }
+
+        this.set("containerClasses", containerClasses);
     },
     snapToBounds: function (index) {
         index = Math.min(index, this.get("slides").size());
@@ -167,19 +182,6 @@ Y.extend(Upstage, Y.Widget, {
 
         // Set current slide.
         currentSlide.addClass(classes.current);
-
-        // Set on-slide- class on container.
-        var onPrefix = classes.onPrefix,
-            containerClasses = [
-                onPrefix + current
-            ],
-            currentId = this.indexToId(current);
-
-        if (currentId !== current) {
-            containerClasses.push(onPrefix + currentId);
-        }
-
-        this.set("containerClasses", containerClasses);
 
         if (lastSlide) {
             // Last slide doesn't exist on startup.
