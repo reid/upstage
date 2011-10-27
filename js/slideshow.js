@@ -27,6 +27,9 @@ Upstage.ATTRS = {
     currentSlide: {
         value: -1
     },
+    containerClasses: {
+        value: []
+    },
     classes: {
         value: {
             container: "deck-container",
@@ -48,6 +51,7 @@ Upstage.HTML_PARSER = {
 Y.extend(Upstage, Y.Widget, {
     initializer: function () {
         this.get("contentBox").addClass(this.get("classes").container);
+        this._bindAttributes();
         this._publishEvents();
         this._detectFeatures();
     },
@@ -102,12 +106,19 @@ Y.extend(Upstage, Y.Widget, {
                 if (validated) {
                     Y.log("Navigating to slide: " + nextIndex, "info", "upstage");
                     this.set("currentSlide", nextIndex);
-                    this._updateState();
                 } else {
                     ev.stopImmediatePropagation();
                 }
             }
         });
+    },
+    _bindAttributes: function () {
+        this.after("containerClassesChange", function (ev) {
+            var contentBox = this.get("contentBox");
+            Y.Array.each(ev.prevVal, contentBox.removeClass, contentBox);
+            Y.Array.each(ev.newVal, contentBox.addClass, contentBox);
+        });
+        this.after("currentSlideChange", Y.bind("_updateState", this));
     },
     snapToBounds: function (index) {
         index = Math.min(index, this.get("slides").size());
@@ -121,11 +132,23 @@ Y.extend(Upstage, Y.Widget, {
             this.fire("navigate", 1);
         }
     },
-    _updateState: function () {
+    indexToId: function (index) {
+        index = this.snapToBounds(index);
+        var slide = this.get("slides").item(index - 1);
+        var id = slide.get("id");
+
+        // Avoid using auto-generated ids, they change on every pageview.
+        if (id === Y.stamp(slide, true)) {
+            id = null;
+        }
+
+        return (id) ? id : index;
+    },
+    _updateState: function (ev) {
         var classes = this.get("classes");
         var contentBox = this.get("contentBox");
         var slides = this.get("slides");
-        var current = this.get("currentSlide") - 1;
+        var current = ev.newVal - 1;
 
         // not the previous slide, per-se.
         // just the one that's about tbe be navigated away from.
@@ -133,6 +156,7 @@ Y.extend(Upstage, Y.Widget, {
 
         var currentSlide = slides.item(current);
 
+        // Remove classes from slides.
         Y.Array.each([
             classes.before,
             classes.previous,
@@ -141,7 +165,21 @@ Y.extend(Upstage, Y.Widget, {
             classes.current
         ], slides.removeClass, slides);
 
+        // Set current slide.
         currentSlide.addClass(classes.current);
+
+        // Set on-slide- class on container.
+        var onPrefix = classes.onPrefix,
+            containerClasses = [
+                onPrefix + current
+            ],
+            currentId = this.indexToId(current);
+
+        if (currentId !== current) {
+            containerClasses.push(onPrefix + currentId);
+        }
+
+        this.set("containerClasses", containerClasses);
 
         if (lastSlide) {
             // Last slide doesn't exist on startup.

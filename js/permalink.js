@@ -29,7 +29,7 @@ Y.extend(UpstagePermalink, Y.Plugin.Base, {
             var titleContent = plugin.get("titleContent");
             var index = ev.details[0];
 
-            var hash = plugin._indexToId(index);
+            var hash = host.indexToId(index);
             var slideTitle;
 
             history.addValue("slide", hash);
@@ -71,18 +71,6 @@ Y.extend(UpstagePermalink, Y.Plugin.Base, {
 
         // navigate to permalink on startup
         positioner(history.get("slide"));
-    },
-    _indexToId: function (index) {
-        index = this.get("host").snapToBounds(index);
-        var slide = this.get("host").get("slides").item(index - 1);
-        var id = slide.get("id");
-
-        // Avoid using auto-generated ids, they change on every pageview.
-        if (id === Y.stamp(slide, true)) {
-            id = null;
-        }
-
-        return (id) ? id : index;
     },
     _idToIndex: function (id) {
         var found;
