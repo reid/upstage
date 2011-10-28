@@ -130,7 +130,7 @@ Y.extend(Upstage, Y.Widget, {
         this.after("currentSlideChange", Y.bind("_updateContainerClasses", this));
     },
     _updateContainerClasses: function (ev) {
-        var currentIndex = ev.newVal - 1,
+        var currentIndex = ev.newVal,
             onPrefix = this.get("classes").onPrefix,
             containerClasses = [
                 onPrefix + currentIndex
