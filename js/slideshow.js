@@ -15,58 +15,11 @@ Y.Node.addMethod("parentsUntil", function parentsUntil (element, parentNode) {
     });
 });
 
-function Upstage() {
-    Upstage.superclass.constructor.apply(this, arguments);
-}
+var UPSTAGE_NAME = "upstage";
 
-Upstage.NAME = Upstage.CSS_PREFIX =  "upstage";
+Y.namespace("Upstage");
 
-Upstage.ATTRS = {
-    slides: {
-        value: null
-    },
-    currentSlide: {
-        value: -1,
-        setter: function (index) {
-            index = parseInt(index);
-            var normalizedIndex = Y.Attribute.INVALID_VALUE,
-                originalIndex = index;
-            index = this.snapToBounds(index);
-            if (isNaN(index)) {
-                Y.log("Invalid index, invalid " + index + " snapped from " + originalIndex, "info", "upstage");
-            } else if (index !== originalIndex) {
-                Y.log("Index out of bounds, invalid " + index + " snapped from " + originalIndex, "info", "upstage");
-            } else if (index === this.get("currentSlide")) {
-                Y.log("Nothing changed, invalid.", "info", "upstage");
-            } else {
-                Y.log("currentSlide validated.", "info", "upstage");
-                normalizedIndex = index;
-            }
-            return normalizedIndex;
-        }
-    },
-    containerClasses: {
-        value: []
-    },
-    classes: {
-        value: {
-            container: "deck-container",
-            after: "deck-after",
-            before: "deck-before",
-            current: "deck-current",
-            childCurrent: "deck-child-current",
-            next: "deck-next",
-            onPrefix: "on-slide-",
-            previous: "deck-previous"
-        }
-    }
-};
-
-Upstage.HTML_PARSER = {
-    slides: [".slide"]
-};
-
-Y.extend(Upstage, Y.Widget, {
+Y.Upstage = Y.Base.create(UPSTAGE_NAME, Y.Widget, [], {
     initializer: function () {
         this.get("contentBox").addClass(this.get("classes").container);
         this._bindAttributes();
@@ -214,9 +167,49 @@ Y.extend(Upstage, Y.Widget, {
         }
         this.fire("widget:contentUpdate");
     }
+}, {
+    ATTRS: {
+        slides: {
+            value: null
+        },
+        currentSlide: {
+            value: -1,
+            setter: function (index) {
+                index = parseInt(index);
+                var normalizedIndex = Y.Attribute.INVALID_VALUE,
+                    originalIndex = index;
+                index = this.snapToBounds(index);
+                if (isNaN(index)) {
+                    Y.log("Invalid index, invalid " + index + " snapped from " + originalIndex, "info", "upstage");
+                } else if (index !== originalIndex) {
+                    Y.log("Index out of bounds, invalid " + index + " snapped from " + originalIndex, "info", "upstage");
+                } else if (index === this.get("currentSlide")) {
+                    Y.log("Nothing changed, invalid.", "info", "upstage");
+                } else {
+                    Y.log("currentSlide validated.", "info", "upstage");
+                    normalizedIndex = index;
+                }
+                return normalizedIndex;
+            }
+        },
+        containerClasses: {
+            value: []
+        },
+        classes: {
+            value: {
+                container: "deck-container",
+                after: "deck-after",
+                before: "deck-before",
+                current: "deck-current",
+                childCurrent: "deck-child-current",
+                next: "deck-next",
+                onPrefix: "on-slide-",
+                previous: "deck-previous"
+            }
+        }
+    },
+    HTML_PARSER: {
+        slides: [".slide"]
+    },
+    CSS_PREFIX: UPSTAGE_NAME
 });
-
-Y.augment(Upstage, Y.EventTarget);
-
-Y.namespace("Upstage");
-Y.Upstage = Upstage;
