@@ -1,13 +1,6 @@
 // This module handles keyboard interaction with the presentation.
-function UpstageKeyboard (config) {
-    UpstageKeyboard.superclass.constructor.apply(this, arguments);
-}
 
-UpstageKeyboard.NS = "keyboard";
-
-UpstageKeyboard.NAME = "upstage-keyboard";
-
-Y.extend(UpstageKeyboard, Y.Plugin.Base, {
+Y.Plugin.UpstageKeyboard = Y.Base.create("upstage-keyboard", Y.Plugin.Base, [], {
     initializer: function (config) {
         var host = this.get("host");
 
@@ -55,6 +48,6 @@ Y.extend(UpstageKeyboard, Y.Plugin.Base, {
             ev.halt();
         }
     }
+}, {
+    NS: "keyboard"
 });
-
-Y.Plugin.UpstageKeyboard = UpstageKeyboard;
