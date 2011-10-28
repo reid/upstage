@@ -9,9 +9,10 @@
 // at Yahoo! Inc.
 // It's free to use under the [BSD license](http://developer.yahoo.com/yui/license.html).
 
-Y.Node.addMethod("parentsUntil", function parentsUntil (parentNode) {
-    // TODO: Fix implementation to parentNode.
-    return this.ancestors();
+Y.Node.addMethod("parentsUntil", function parentsUntil (element, parentNode) {
+    return this.ancestors(function (ancestor) {
+        return Y.DOM.contains(parentNode, ancestor._node);
+    });
 });
 
 function Upstage() {
