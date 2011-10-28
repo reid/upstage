@@ -1,25 +1,6 @@
 // This module provides browser history and permalinks for your presentation.
 
-function UpstagePermalink (config) {
-    UpstagePermalink.superclass.constructor.apply(this, arguments);
-}
-
-UpstagePermalink.NS = "permalink";
-
-UpstagePermalink.NAME = "upstage-permalink";
-
-UpstagePermalink.ATTRS = {
-    strings: {
-        value: {
-            "slide" : "Slide"
-        }
-    },
-    titleContent: {
-        value: Y.one("title").get("text")
-    }
-};
-
-Y.extend(UpstagePermalink, Y.Plugin.Base, {
+Y.Plugin.UpstagePermalink = Y.Base.create("upstage-permalink", Y.Plugin.Base, [], {
     initializer: function (config) {
         var plugin = this;
         var history = new Y.HistoryHash;
@@ -89,6 +70,16 @@ Y.extend(UpstagePermalink, Y.Plugin.Base, {
             return null;
         }
     }
+}, {
+    ATTRS: {
+        strings: {
+            value: {
+                "slide" : "Slide"
+            }
+        },
+        titleContent: {
+            value: Y.one("title").get("text")
+        }
+    },
+    NS: "permalink"
 });
-
-Y.Plugin.UpstagePermalink = UpstagePermalink;
