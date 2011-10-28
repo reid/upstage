@@ -25,7 +25,24 @@ Upstage.ATTRS = {
         value: null
     },
     currentSlide: {
-        value: -1
+        value: -1,
+        setter: function (index) {
+            index = parseInt(index);
+            var normalizedIndex = Y.Attribute.INVALID_VALUE,
+                originalIndex = index;
+            index = this.snapToBounds(index);
+            if (isNaN(index)) {
+                Y.log("Invalid index, invalid " + index + " snapped from " + originalIndex, "info", "upstage");
+            } else if (index !== originalIndex) {
+                Y.log("Index out of bounds, invalid " + index + " snapped from " + originalIndex, "info", "upstage");
+            } else if (index === this.get("currentSlide")) {
+                Y.log("Nothing changed, invalid.", "info", "upstage");
+            } else {
+                Y.log("currentSlide validated.", "info", "upstage");
+                normalizedIndex = index;
+            }
+            return normalizedIndex;
+        }
     },
     containerClasses: {
         value: []
@@ -90,29 +107,16 @@ Y.extend(Upstage, Y.Widget, {
 
         // Legacy event.
         this.publish("navigate", {
-            emitFacade: true
+            emitFacade: true,
+            defaultFn: function (ev) {
+                var idx = ev.details[0];
+                if (idx !== this.get("currentSlide")) {
+                    this.set("currentSlide", idx);
+                }
+            }
         });
     },
     _bindAttributes: function () {
-        this.on("currentSlideChange", function (ev) {
-            var nextIndex = ev.newVal;
-            var validated = false;
-            nextIndex = this.snapToBounds(nextIndex);
-            if (isNaN(nextIndex)) {
-                Y.log("Invalid index, ignoring.", "info", "upstage");
-            } else if (nextIndex != ev.newVal) {
-                Y.log("Index out of bounds, ignoring.", "info", "upstage");
-            } else if (nextIndex === this.get("currentSlide")) {
-                Y.log("Nothing changed, ignoring.", "info", "upstage");
-            } else {
-                validated = true;
-            }
-            if (validated) {
-                Y.log("Navigating to slide: " + nextIndex, "info", "upstage");
-            } else {
-                ev.preventDefault();
-            }
-        });
         this.after("containerClassesChange", function (ev) {
             var contentBox = this.get("contentBox");
             Y.Array.each(ev.prevVal, contentBox.removeClass, contentBox);
