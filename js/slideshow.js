@@ -161,7 +161,7 @@ Y.extend(Upstage, Y.Widget, {
         var id = slide.get("id");
 
         // Avoid using auto-generated ids, they change on every pageview.
-        if (id === Y.stamp(slide, true)) {
+        if (id.indexOf("yui_3") === 0) {
             id = null;
         }
 
