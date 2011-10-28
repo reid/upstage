@@ -15,7 +15,10 @@ Y.Node.addMethod("parentsUntil", function parentsUntil (element, parentNode) {
     });
 });
 
-var UPSTAGE_NAME = "upstage";
+var UPSTAGE_NAME = "upstage",
+    CONTENT_BOX = "contentBox",
+    CURRENT_SLIDE = "currentSlide",
+    CURRENT_SLIDE_CHANGE = CURRENT_SLIDE + "Change";
 
 Y.namespace("Upstage");
 
@@ -55,7 +58,7 @@ Y.Upstage = Y.Base.create(UPSTAGE_NAME, Y.Widget, [], {
                     // prevent navigation to "#"
                     mouseEvent.halt();
                 }
-                this.set("currentSlide", this.get("currentSlide") + ev.details[0]);
+                this.set(CURRENT_SLIDE, this.get(CURRENT_SLIDE) + ev.details[0]);
             }
         });
 
@@ -64,8 +67,8 @@ Y.Upstage = Y.Base.create(UPSTAGE_NAME, Y.Widget, [], {
             emitFacade: true,
             defaultFn: function (ev) {
                 var idx = ev.details[0];
-                if (idx !== this.get("currentSlide")) {
-                    this.set("currentSlide", idx);
+                if (idx !== this.get(CURRENT_SLIDE)) {
+                    this.set(CURRENT_SLIDE, idx);
                 }
             }
         });
@@ -76,12 +79,12 @@ Y.Upstage = Y.Base.create(UPSTAGE_NAME, Y.Widget, [], {
             Y.Array.each(ev.prevVal, contentBox.removeClass, contentBox);
             Y.Array.each(ev.newVal, contentBox.addClass, contentBox);
         });
-        this.after("currentSlideChange", function (ev) {
+        this.after(CURRENT_SLIDE_CHANGE, function (ev) {
             // Fire legacy event.
             this.fire("navigate", ev.newVal);
         });
-        this.after("currentSlideChange", Y.bind("_updateState", this));
-        this.after("currentSlideChange", Y.bind("_updateContainerClasses", this));
+        this.after(CURRENT_SLIDE_CHANGE, Y.bind("_updateState", this));
+        this.after(CURRENT_SLIDE_CHANGE, Y.bind("_updateContainerClasses", this));
     },
     _updateContainerClasses: function (ev) {
         var currentIndex = ev.newVal,
@@ -103,10 +106,10 @@ Y.Upstage = Y.Base.create(UPSTAGE_NAME, Y.Widget, [], {
         return index;
     },
     syncUI: function () {
-        var currentSlide = this.get("currentSlide");
+        var currentSlide = this.get(CURRENT_SLIDE);
         if (currentSlide === -1) {
             Y.log("Firing navigate since no navigation occured at startup.", "info", "upstage");
-            this.set("currentSlide", 1);
+            this.set(CURRENT_SLIDE, 1);
         }
     },
     indexToId: function (index) {
@@ -183,7 +186,7 @@ Y.Upstage = Y.Base.create(UPSTAGE_NAME, Y.Widget, [], {
                     Y.log("Invalid index, invalid " + index + " snapped from " + originalIndex, "info", "upstage");
                 } else if (index !== originalIndex) {
                     Y.log("Index out of bounds, invalid " + index + " snapped from " + originalIndex, "info", "upstage");
-                } else if (index === this.get("currentSlide")) {
+                } else if (index === this.get(CURRENT_SLIDE)) {
                     Y.log("Nothing changed, invalid.", "info", "upstage");
                 } else {
                     Y.log("currentSlide validated.", "info", "upstage");
