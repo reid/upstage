@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title><%= @headers['title'] %></title>
+
+    <meta name="author" content="<%= @headers['author'] %>">
+    <meta name="copyright" content="<%= @headers['copyright'] %>">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1024, user-scalable=no">
+
+    <link rel="stylesheet" href="build/upstage-deck-core-min.css">
+    <link rel="stylesheet" href="transition.css">
+
+    <style>
+      <%= content_for :css %>
+    </style>
+</head>
+
+<body>
+
+<div id="bd" class="deck-container">
+
+    <div class="slide title">
+        <h1><%= @headers['title'] %></h1>
+        <p><%= @headers['author'] %></p>
+    </div>
+   
+<%= @content %>
+
+</div>
+
+<div id="ft">
+    <p class="credit">
+        <%= @headers['footer'] %>
+    </p>
+</div>
+
+<script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
+<script>
+    if (!window.YUI) {
+        // Retry with a local URL.
+        document.write('<script src="yui3/build/yui/yui.js"><\/script>');
+        // Don't autodetect the base path (the CDN path didn't work).
+        document.write('<script>YUI.config.base = "yui3/build/";<\/script>');
+    }
+</script>
+<script>
+    YUI({
+        modules: {
+            "upstage-blank": {
+                fullpath: "build/upstage-blank-min.js",
+                requires: ["upstage-slideshow", "plugin"]
+            },
+            "upstage-controls": {
+                fullpath: "build/upstage-controls-min.js",
+                requires: ["upstage-slideshow", "widget", "transition", "node"]
+            },
+            "upstage-gesture": {
+                fullpath: "build/upstage-gesture-min.js",
+                requires: ["upstage-slideshow", "plugin", "event-move"]
+            },
+            "upstage-keyboard": {
+                fullpath: "build/upstage-keyboard-min.js",
+                requires: ["upstage-slideshow", "base-build", "plugin", "event-key"]
+            },
+            "upstage-permalink": {
+                fullpath: "build/upstage-permalink-min.js",
+                requires: ["upstage-slideshow", "base-build", "node", "plugin", "history"]
+            },
+            "upstage-slideshow": {
+                fullpath: "build/upstage-slideshow-min.js",
+                requires: ["oop", "node", "widget", "base-build"]
+            }
+            // For controls plugin-widget:
+            // It should be a sub-Widget, but pluggable into deck.
+            // Also, it should create the prev/next links
+            // unlike deck.js which puts dummy links in markup.
+        },
+        debug: true,
+        filter: "min"
+    }).use(
+        "upstage-slideshow",
+        "upstage-keyboard",
+        "upstage-permalink",
+        "upstage-gesture",
+        "upstage-blank",
+        function (Y) {
+            // Upstage is a YUI widget.
+            var deck = new Y.Upstage({
+                srcNode: "#bd" // Where to find .slide elements.
+            });
+
+            // Upstage does not do much without plugins.
+            // They are all optional. Use only what you need.
+            deck.plug([
+                Y.Plugin.UpstageKeyboard,
+                Y.Plugin.UpstageBlank,
+                Y.Plugin.UpstageGesture,
+                Y.Plugin.UpstagePermalink
+            ]);
+
+            deck.render();
+        }
+    );
+</script>
+
+</body>
+
+</html>

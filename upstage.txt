@@ -1,5 +1,12 @@
 __file__.html index.html.erb
-build/upstage-min.js
-build/upstage-keynote-min.css
+build/upstage-blank-min.js
+build/upstage-controls-min.js
+build/upstage-slideshow-min.js
+build/upstage-gesture-min.js
+build/upstage-keyboard-min.js
+build/upstage-permalink-min.js
+build/upstage-blank-min.js
+build/upstage-deck-core-min.css
+transition.css
 build/assets/logo.png
 build/lang/upstage-l10n.js
