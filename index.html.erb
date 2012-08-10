@@ -25,18 +25,13 @@
 <div id="bd" class="deck-container">
 
     <div class="slide title">
+        <p class="conf"><%= @headers['footer'] %></p>
         <h1><%= @headers['title'] %></h1>
         <p><%= @headers['author'] %></p>
     </div>
    
 <%= @content %>
 
-</div>
-
-<div id="ft">
-    <p class="credit">
-        <%= @headers['footer'] %>
-    </p>
 </div>
 
 <script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
