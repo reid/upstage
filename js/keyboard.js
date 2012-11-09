@@ -9,10 +9,10 @@ Y.Plugin.UpstageKeyboard = Y.Base.create("upstage-keyboard", Y.Plugin.Base, [], 
         });
         this.onHostEvent("keydown", Y.bind("keydown", this));
 
-        Y.one(Y.config.doc).on("key", Y.bind("fire", host, "keydown"), "down:");
+        Y.one(Y.config.win).on("keydown", Y.bind("keydown", this));
     },
     destructor: function (config) {
-        Y.one(Y.config.doc).detach("key", Y.bind("fire", this.get("host"), "keydown"));
+        Y.one(Y.config.win).detach("keydown", Y.bind("keydown", this));
     },
     keydown: function (ev) {
         var host = this.get("host");
