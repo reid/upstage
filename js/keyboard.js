@@ -7,7 +7,6 @@ Y.Plugin.UpstageKeyboard = Y.Base.create("upstage-keyboard", Y.Plugin.Base, [], 
         host.publish("keydown", {
             emitFacade: true
         });
-        this.onHostEvent("keydown", Y.bind("keydown", this));
 
         Y.one(Y.config.win).on("keydown", Y.bind("keydown", this));
     },
@@ -34,9 +33,11 @@ Y.Plugin.UpstageKeyboard = Y.Base.create("upstage-keyboard", Y.Plugin.Base, [], 
                 host.fire("warp", -1);
                 break;
             case 36: // home
+            case 116: // F8 (Logitech R800 start button)
                 host.fire("navigate", 1);
                 break;
             case 35: // end
+            case 27: // Escape (Logitech R800 stop button)
                 host.fire("navigate", 9999);
                 break;
             default:
@@ -46,6 +47,8 @@ Y.Plugin.UpstageKeyboard = Y.Base.create("upstage-keyboard", Y.Plugin.Base, [], 
 
         if (handled) {
             ev.halt();
+        } else {
+            host.fire("keydown", ev);
         }
     }
 }, {

@@ -14,8 +14,11 @@ UpstageBlank.ATTRS = {
     background: {
         value: "#000"
     },
-    keycode: {
-        value: 66 // B
+    keycodes: {
+        value: [
+            66, // B
+            190 // . (Logitech R800 blank button)
+        ]
     },
     curtain: {
         value: null
@@ -29,7 +32,9 @@ Y.extend(UpstageBlank, Y.Plugin.Base, {
         var plugin = this;
         this.onHostEvent("keydown", function (ev) {
             var keycode = ev.details[0].keyCode;
-            if (keycode == plugin.get("keycode")) {
+            if (Y.Array.some(plugin.get("keycodes"), function (value) {
+                return value === keycode;
+            })) {
                 plugin.drop(!plugin.get("dropped"));
                 ev.halt();
             } else {
