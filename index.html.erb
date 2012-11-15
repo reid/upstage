@@ -102,6 +102,10 @@
             ]);
 
             deck.render();
+
+            if ("function" === typeof window.deckReady) {
+                window.deckReady(deck, Y);
+            }
         }
     );
 </script>
