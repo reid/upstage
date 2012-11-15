@@ -14,7 +14,8 @@ Y.Plugin.UpstageKeyboard = Y.Base.create("upstage-keyboard", Y.Plugin.Base, [], 
         Y.one(Y.config.win).detach("keydown", Y.bind("keydown", this));
     },
     keydown: function (ev) {
-        var host = this.get("host");
+        var host = this.get("host"),
+            handled = true;
 
         Y.log(ev.type + ": " + ev.keyCode, "debug", "upstage-keyboard");
 
@@ -33,12 +34,34 @@ Y.Plugin.UpstageKeyboard = Y.Base.create("upstage-keyboard", Y.Plugin.Base, [], 
                 host.fire("warp", -1);
                 break;
             case 36: // home
-            case 116: // F8 (Logitech R800 start button)
                 host.fire("navigate", 1);
                 break;
             case 35: // end
-            case 27: // Escape (Logitech R800 stop button)
                 host.fire("navigate", 9999);
+                break;
+            case 116: // F8 (Logitech R800 play button)
+            case 27: // Escape (Logitech R800 play button)
+                if (!this.get("playKeycode")) {
+                    // The Logitech R800 alternates between
+                    // the F8 and Escape keycodes. Capture the
+                    // first key we get as the initial state.
+                    this.set("playKeycode", ev.keyCode);
+                }
+
+                if (ev.keyCode === this.get("playKeycode")) {
+                    // Go to beginning of show.
+                    // Store the current slide state.
+                    Y.log("return to first storing state for: " + ev.keyCode, "debug", "upstage-keyboard");
+                    this.set("lastSlideBeforeReset", host.get("currentSlide"));
+                    host.fire("navigate", 1);
+                } else {
+                    // When the R800's start button is pressed again,
+                    // go back to the last slide before reset.
+                    // This is to recover from accidental press
+                    // of the start button during a presentation.
+                    Y.log("return to lastSlideBeforeReset for: " + ev.keyCode, "debug", "upstage-keyboard");
+                    host.fire("navigate", this.get("lastSlideBeforeReset"));
+                }
                 break;
             default:
                 handled = false;
@@ -52,5 +75,13 @@ Y.Plugin.UpstageKeyboard = Y.Base.create("upstage-keyboard", Y.Plugin.Base, [], 
         }
     }
 }, {
-    NS: "keyboard"
+    NS: "keyboard",
+    ATTRS: {
+        playKeycode: {
+            value: 116 // F8
+        },
+        lastSlideBeforeReset: {
+            value: 1
+        }
+    }
 });
