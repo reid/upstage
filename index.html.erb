@@ -14,6 +14,7 @@
 
     <link rel="stylesheet" href="build/upstage-deck-core-min.css">
     <link rel="stylesheet" href="transition.css">
+    <link rel="stylesheet" href="prettify.css">
 
     <style>
       <%= content_for :css %>
@@ -34,6 +35,7 @@
 
 </div>
 
+<script src="prettify.js"></script>
 <script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
 <script>
     if (!window.YUI) {
@@ -44,6 +46,7 @@
     }
 </script>
 <script>
+    prettyPrint();
     YUI({
         modules: {
             "upstage-blank": {

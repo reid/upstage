@@ -8,5 +8,7 @@ build/upstage-permalink-min.js
 build/upstage-blank-min.js
 build/upstage-deck-core-min.css
 transition.css
+prettify.css
+prettify.js
 build/assets/logo.png
 build/lang/upstage-l10n.js
