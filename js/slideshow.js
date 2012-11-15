@@ -112,10 +112,13 @@ Y.Upstage = Y.Base.create(UPSTAGE_NAME, Y.Widget, [], {
             this.set(CURRENT_SLIDE, 1);
         }
     },
+    getSlideById: function (index) {
+        index = this.snapToBounds(index);
+        return this.get("slides").item(index - 1);
+    },
     indexToId: function (index) {
         index = this.snapToBounds(index);
-        var slide = this.get("slides").item(index - 1);
-        var id = slide.get("id");
+        var id = this.getSlideById(index).get("id");
 
         // Avoid using auto-generated ids, they change on every pageview.
         if (id.indexOf("yui_3") === 0) {
