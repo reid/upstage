@@ -2,11 +2,17 @@
 
 Upstage is a slideshow system that runs in a web browser. It's powered by [YUI][].
 
-## Getting started
+## Getting Started
 
 Clone this repo and open index.html. Your slides are HTML.
 
 Copy the `build` directory and `index.html` to your own workspace and get writing.
+
+### S9 Template
+
+Upstage can be easily used as an [S9][] template:
+
+    slideshow install https://raw.github.com/reid/upstage/master/upstage.txt
 
 ## Building Upstage
 
