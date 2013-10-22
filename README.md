@@ -67,4 +67,5 @@ Upstage was written by Reid Burke.
 Upstage is available online at <http://github.com/reid/upstage>. You may file bugs or contact me there.
 
   [YUI]: http://yuilibrary.com/
+  [S9]: https://github.com/slideshow-s9/slideshow#readme
   [Shifter]: http://yui.github.io/shifter/
