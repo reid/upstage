@@ -99,6 +99,7 @@ Upstage is available online at <https://github.com/reid/upstage>. You may file b
   [YUI]: http://yuilibrary.com/
   [S9]: https://github.com/slideshow-s9/slideshow#readme
   [Shifter]: http://yui.github.io/shifter/
+  [deck.js]: https://github.com/imakewebthings/deck.js
   [wctw]: http://reid.github.io/decks/2012/yuiconf/yeti.html
   [wctw-source]: https://github.com/reid/decks/blob/3960963d59da53e5098cb22697a6a5a2d7b8d171/2012/yuiconf/yeti.text
   [demo]: https://www.youtube.com/watch?feature=player_detailpage&v=lA6XVosv04E#t=849
