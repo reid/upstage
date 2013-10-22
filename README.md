@@ -12,9 +12,11 @@ Copy the `build` directory and `index.html` to your own workspace and get writin
 
 Source files are located in `js` and `css` directories.
 
-Upstage uses [YUI Builder][] and Apache Ant. Clone YUI Builder in a sibling directory, then run `ant` to build Upstage.
+Upstage can be built with [Shifter][].
 
-Ant property files are in the `components` directory.
+    npm install -g shifter
+    cd src/shifter
+    shifter
 
 ## Hacking Upstage
 
@@ -59,4 +61,4 @@ Upstage was written by Reid Burke.
 Upstage is available online at <http://github.com/reid/upstage>. You may file bugs or contact me there.
 
   [YUI]: http://yuilibrary.com/
-  [YUI Builder]: http://github.com/yui/builder
+  [Shifter]: http://yui.github.io/shifter/
