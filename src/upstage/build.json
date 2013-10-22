@@ -1,0 +1,117 @@
+{
+    "name": "upstage",
+    "builds": {
+        "upstage-blank": {
+            "config": {
+                "requires": [
+                    "upstage-slideshow",
+                    "plugin"
+                ]
+            },
+            "jsfiles": [
+                "blank.js"
+            ]
+        },
+        "upstage-controls": {
+            "config": {
+                "requires": [
+                    "upstage-slideshow",
+                    "widget",
+                    "transition",
+                    "node"
+                ]
+            },
+            "jsfiles": [
+                "controls.js"
+            ]
+        },
+        "upstage-deck-core": {
+            "cssfiles": [
+                "deck.core.css"
+            ]
+        },
+        "upstage-gesture": {
+            "config": {
+                "requires": [
+                    "upstage-slideshow",
+                    "event-move"
+                ]
+            },
+            "jsfiles": [
+                "gesture.js"
+            ]
+        },
+        "upstage-keyboard": {
+            "config": {
+                "requires": [
+                    "upstage-slideshow",
+                    "base-build",
+                    "node",
+                    "event"
+                ]
+            },
+            "jsfiles": [
+                "keyboard.js"
+            ]
+        },
+        "upstage-l10n": {
+            "config": {
+                "requires": [
+                    "intl"
+                ],
+                "lang": [
+                    "en"
+                ]
+            },
+            "jsfiles": [
+                "l10n.js"
+            ]
+        },
+        "upstage-l10n": {
+            "config": {
+                "requires": [
+                    "intl"
+                ],
+                "lang": [
+                    "en"
+                ]
+            },
+            "jsfiles": [
+                "l10n.js"
+            ]
+        },
+        "upstage-slideshow": {
+            "config": {
+                "requires": [
+                    "oop",
+                    "node",
+                    "widget",
+                    "base-build"
+                ]
+            },
+            "jsfiles": [
+                "slideshow.js"
+            ]
+        }
+    },
+    "rollups": {
+        "upstage": {
+            "files": [
+                "upstage-slideshow",
+                "upstage-keyboard",
+                "upstage-blank",
+                "upstage-gesture",
+                "upstage-permalink"
+            ],
+            "config": {
+                "use": [
+                    "upstage-slideshow",
+                    "upstage-keyboard",
+                    "upstage-blank",
+                    "upstage-gesture",
+                    "upstage-permalink"
+                ]
+            }
+        }
+    }
+}

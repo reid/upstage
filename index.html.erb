@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=1024, user-scalable=no">
 
-    <link rel="stylesheet" href="build/upstage-deck-core-min.css">
+    <link rel="stylesheet" href="build/upstage-deck-core/upstage-deck-core-min.css">
     <link rel="stylesheet" href="transition.css">
     <link rel="stylesheet" href="prettify.css">
 
@@ -49,43 +49,14 @@
     prettyPrint();
     YUI({
         modules: {
-            "upstage-blank": {
-                fullpath: "build/upstage-blank-min.js",
-                requires: ["upstage-slideshow", "plugin"]
-            },
-            "upstage-controls": {
-                fullpath: "build/upstage-controls-min.js",
-                requires: ["upstage-slideshow", "widget", "transition", "node"]
-            },
-            "upstage-gesture": {
-                fullpath: "build/upstage-gesture-min.js",
-                requires: ["upstage-slideshow", "plugin", "event-move"]
-            },
-            "upstage-keyboard": {
-                fullpath: "build/upstage-keyboard-min.js",
-                requires: ["upstage-slideshow", "base-build", "plugin", "event-key"]
-            },
-            "upstage-permalink": {
-                fullpath: "build/upstage-permalink-min.js",
-                requires: ["upstage-slideshow", "base-build", "node", "plugin", "history"]
-            },
-            "upstage-slideshow": {
-                fullpath: "build/upstage-slideshow-min.js",
-                requires: ["oop", "node", "widget", "base-build"]
+            "upstage": {
+                fullpath: "build/upstage/upstage-min.js",
             }
-            // For controls plugin-widget:
-            // It should be a sub-Widget, but pluggable into deck.
-            // Also, it should create the prev/next links
-            // unlike deck.js which puts dummy links in markup.
         },
         debug: true,
         filter: "min"
     }).use(
-        "upstage-slideshow",
-        "upstage-keyboard",
-        "upstage-permalink",
-        "upstage-gesture",
-        "upstage-blank",
+        "upstage",
         function (Y) {
             // Upstage is a YUI widget.
             var deck = new Y.Upstage({

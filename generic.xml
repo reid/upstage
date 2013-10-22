@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="upstage" default="local">
-    <property file="build.properties"/>
-    <property file="${upstage.component.properties}"/>
-    <import file="${builddir}/3.x/bootstrap.xml"/>
-</project>
