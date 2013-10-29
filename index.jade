@@ -6,12 +6,50 @@ block vars
     - var description = "Welcome!";
 
 block slides
-    section.slide.title
+    section.slide#title
         h2= title
         p.author= author
+        p Left arrow or swipe left to continue!
 
-    section.slide
+    section.slide#how-it-works
+        h2 How Does It Work?
         :markdown
-            ## What is Upstage?
+            Upstage is a library for making web presentations built on [YUI](http://yuilibrary.com).
 
-            Upstage is a library for making web presentations.
+        ol
+            li
+                h3 Create Slides
+                p Slides are plain old HTML.
+            li
+                h3 Tweak Styles
+                p Upstage can be used with deck.js themes.
+            li
+                h3 Extend and Enjoy
+                p Build on YUI's rock-solid architecture.
+
+        .slide#getting-started
+            :markdown
+                ### Getting Started
+
+                 - Get the [Upstage](https://github.com/reid/upstage) repo.
+                 - Copy `index.html` and the `build` directory to another directory.
+                 - Start writing!
+
+    section.slide#architecture
+
+        h2 Architecture
+        p The Upstage core provides the architecture for the presentation. Make it useful by plugging in some of these:
+
+        ul
+            li.slide#architecture-keyboard
+                :markdown
+                    **UpstageKeyboard**: Keyboard navigation.
+            li.slide#architecture-gesture
+                :markdown
+                    **UpstageGesture**: Gesture navigation.
+            li.slide#architecture-blanker
+                :markdown
+                    **UpstageBlanker**: Blank the screen.
+            li.slide#architecture-permalink
+                :markdown
+                    **UpstagePermalink**: Permalinks to each slide.

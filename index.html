@@ -1,136 +1,114 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="utf-8">
-    
-    <title>Getting Started with Upstage</title>
-
+    <title>Welcome to Upstage</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=1024, user-scalable=no">
-
+    <meta name="author" content="Reid Burke">
+    <meta name="copyright" content="© 2013">
+    <meta name="description" content="Welcome!">
     <link rel="stylesheet" href="build/upstage-deck-core/upstage-deck-core-min.css">
     <link rel="stylesheet" href="transition.css">
-</head>
-
-<body>
-
-<div id="bd" class="deck-container">
-
-    <div class="slide title">
-        <h1>Welcome to Upstage</h1>
+    <link rel="stylesheet" href="prettify.css">
+  </head>
+  <body>
+    <div id="bd" class="deck-container">
+      <section id="title" class="slide">
+        <h2>Welcome to Upstage</h2>
+        <p class="author">Reid Burke</p>
         <p>Left arrow or swipe left to continue!</p>
-    </div>
-
-    <div class="slide" id="how">
-        <h2>How Does It Work?</h2>
-        <p>Upstage is a slideshow system built on <a href="http://yuilibrary.com/">YUI 3</a>.</p>
+      </section>
+      <section id="how-it-works" class="slide">
+        <h2>How Does It Work?</h2><p>Upstage is a library for making web presentations built on <a href="http://yuilibrary.com">YUI</a>.</p>
         <ol>
-            <li>
-                <h3>Create Slides</h3>
-                <p>Slides are plain old HTML.</p>
-            </li>
-            <li>
-                <h3>Tweak Styles</h3>
-                <p>Upstage can be used with deck.js themes.</p>
-            </li>
-            <li>
-                <h3>Extend and Enjoy</h3>
-                <p>Built on YUI's rock-solid Widget architecture.</p>
-            </li>
+          <li>
+            <h3>Create Slides</h3>
+            <p>Slides are plain old HTML.</p>
+          </li>
+          <li>
+            <h3>Tweak Styles</h3>
+            <p>Upstage can be used with deck.js themes.</p>
+          </li>
+          <li>
+            <h3>Extend and Enjoy</h3>
+            <p>Build on YUI's rock-solid architecture.</p>
+          </li>
         </ol>
+        <div id="getting-started" class="slide"><h3>Getting Started</h3>
 
-        <div class="slide" id="getting-started">
-            <h3>Getting Started</h3>
-            <ol>
-                <li>Get the <a href="https://github.com/reid/upstage/tree/widget">Upstage widget branch</a>.</li>
-                <li>Copy <code>index.html</code> and the <code>build</code> directory to another directory.</li>
-                <li>Start writing!</li>
-            </ol>
+<ul><li>Get the <a href="https://github.com/reid/upstage">Upstage</a> repo.</li><li>Copy <code>index.html</code> and the <code>build</code> directory to another directory.</li><li>Start writing!</li></ul>
         </div>
-    </div>
-
-    <div class="slide" id="architecture">
-
+      </section>
+      <section id="architecture" class="slide">
         <h2>Architecture</h2>
         <p>The Upstage core provides the architecture for the presentation. Make it useful by plugging in some of these:</p>
-        
         <ul>
-            <li class="slide" id="architecture-keyboard">
-                <strong>UpstageKeyboard</strong>: Keyboard navigation.
-            </li>
-
-            <li class="slide" id="architecture-gesture">
-                <strong>UpstageGesture</strong>: Gesture navigation.
-            </li>
-            
-            <li class="slide" id="architecture-blanker">
-                <strong>UpstageBlanker</strong>: Simple screen blanking.
-            </li>
-
-            <li class="slide" id="architecture-permalink">
-                <strong>UpstagePermalink</strong>: Provides permalinks to slides that are unique per-slide.
-            </li>
+          <li id="architecture-keyboard" class="slide"><p><strong>UpstageKeyboard</strong>: Keyboard navigation.</p>
+          </li>
+          <li id="architecture-gesture" class="slide"><p><strong>UpstageGesture</strong>: Gesture navigation.</p>
+          </li>
+          <li id="architecture-blanker" class="slide"><p><strong>UpstageBlanker</strong>: Blank the screen.</p>
+          </li>
+          <li id="architecture-permalink" class="slide"><p><strong>UpstagePermalink</strong>: Permalinks to each slide.</p>
+          </li>
         </ul>
+      </section>
     </div>
-
-<!-- .presentation -->
-</div>
-
-<script src="http://yui.yahooapis.com/3.13.0/build/yui/yui-min.js"></script>
-<script>
-    if (!window.YUI) {
-        // Retry with a local URL.
-        document.write('<script src="yui3/build/yui/yui.js"><\/script>');
-        // Don't autodetect the base path (the CDN path didn't work).
-        document.write('<script>YUI.config.base = "yui3/build/";<\/script>');
-    }
-</script>
-<script>
-    YUI({
-        base: "build/",
-        modules: {
-            "upstage": {},
-            "upstage-test-pattern": {},
-            "upstage-test-pattern-css": {
-                type: "css"
-            }
-        },
-        debug: true,
-        filter: "min"
-    }).use(
-        "upstage",
-        function (Y) {
-            // Upstage is a YUI widget.
-            var deck = new Y.Upstage({
-                srcNode: "#bd" // Where to find .slide elements.
-            });
-
-            // Upstage does not do much without plugins.
-            // They are all optional. Use only what you need.
-            deck.plug([
-                Y.Plugin.UpstageKeyboard,
-                Y.Plugin.UpstageGesture,
-                Y.Plugin.UpstagePermalink
-            ]);
-
-            if (/[?&]smpte=1/.test(Y.config.win.location.search)) {
-                Y.use("upstage-test-pattern", function (Y) {
-                    deck.plug(Y.Plugin.UpstageTestPattern);
-                });
-            } else {
-                deck.plug(Y.Plugin.UpstageBlank);
-            }
-
-            deck.render();
-
-            if ("function" === typeof window.deckReady) {
-                window.deckReady(deck, Y);
-            }
-        }
-    );
-</script>
-
-</body>
-
+    <script src="prettify.js"></script>
+    <script src="http://yui.yahooapis.com/3.13.0/build/yui/yui-min.js"></script>
+    <script>
+      if (!window.YUI) {
+          // Retry with a local URL.
+          document.write('<script src="yui3/build/yui/yui.js"><\/script>');
+          // Don't autodetect the base path (the CDN path didn't work).
+          document.write('<script>YUI.config.base = "yui3/build/";<\/script>');
+      }
+    </script>
+    <script>
+      prettyPrint();
+      YUI({
+          base: "build/",
+          modules: {
+              "upstage": {},
+              "upstage-test-pattern": {},
+              "upstage-test-pattern-css": {
+                  type: "css"
+              }
+          },
+          debug: true,
+          filter: "min"
+      }).use(
+          "upstage",
+          function (Y) {
+              // Upstage is a YUI widget.
+              var deck = new Y.Upstage({
+                  srcNode: "#bd" // Where to find .slide elements.
+              });
+              
+              // Upstage does not do much without plugins.
+              // They are all optional. Use only what you need.
+              deck.plug([
+                  Y.Plugin.UpstageKeyboard,
+                  Y.Plugin.UpstageGesture,
+                  Y.Plugin.UpstagePermalink
+              ]);
+              
+              if (/[?&]smpte=1/.test(Y.config.win.location.search)) {
+                  Y.use("upstage-test-pattern", function (Y) {
+                      deck.plug(Y.Plugin.UpstageTestPattern);
+                  });
+              } else {
+                  deck.plug(Y.Plugin.UpstageBlank);
+              }
+              
+              deck.render();
+              
+              if ("function" === typeof window.deckReady) {
+                  window.deckReady(deck, Y);
+              }
+          }
+      );
+    </script>
+  </body>
 </html>
