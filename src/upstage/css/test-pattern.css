@@ -1,0 +1,119 @@
+/* CSS adapted from Brad Frost: http://codepen.io/bradfrost/details/atuGI */
+html.yui3-js-enabled, .yui3-js-enabled body {
+   margin: 0;
+   height: 100%;
+}
+.upstage-tp .test {
+  margin: auto;
+  color: #fff;
+  font: bold 24pt monospace;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.upstage-tp {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: column;
+  flex-flow: column;
+  height: 100%;
+  z-index: 1000;
+}
+.upstage-tp .row {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row;
+  flex-flow: row;
+}
+.upstage-tp .a {
+  -webkit-order: 1;
+  -webkit-flex: 10 2 auto;
+  order: 1;
+  flex: 10 2 auto;
+}
+.upstage-tp .b {
+  -webkit-order: 2;
+  -webkit-flex: 1 1 auto;
+  order: 2;
+  flex: 1 1 auto;
+}
+.upstage-tp .c {
+  -webkit-order: 3;
+  -webkit-flex: 3 1 auto;
+  order: 3;
+  flex: 3 1 auto;
+}
+
+.upstage-tp .row > div {
+  -webkit-flex: 1;
+  flex: 1;
+
+  &.span-4 {
+    display: -webkit-flex;
+    -webkit-flex: 5;
+    -webkit-flex-flow: row;
+    display: flex;
+    flex: 5;
+    flex-flow: row;
+
+    div {
+       -webkit-flex: 1;
+       flex: 1;
+    }
+
+  }
+}
+
+.upstage-tp .triple {
+  display: -webkit-flex;
+  display: flex;
+}
+.upstage-tp .triple > div {
+   -webkit-flex: 1;
+   flex: 1;
+}
+
+
+/*Colors*/
+.upstage-tp .blue {
+  background-color: #1e00c0;
+}
+.upstage-tp .red {
+  background-color: #c00000;
+}
+.upstage-tp .pink {
+   background-color: #c002c0;
+}
+.upstage-tp .green {
+   background-color: #35c000;
+}
+.upstage-tp .blue-light {
+   background-color: #3fc0c0;
+}
+.upstage-tp .yellow {
+   background-color: #c0c004;
+}
+.upstage-tp .gray-light {
+   background-color: #c0c0c0;
+}
+.upstage-tp .gray-light-2 {
+   background-color: #222;
+}
+.upstage-tp .gray {
+   background-color: #151213;
+}
+.upstage-tp .gray-med {
+   background-color: #1d1d1d;
+}
+.upstage-tp .gray-dark {
+   background-color: #040b0a;
+}
+.upstage-tp .purple {
+   background-color: #31016a;
+}
+.upstage-tp .white {
+   background-color: #fff;
+}
+.upstage-tp .blue-dark {
+  background-color: #0d1f4c;
+}
