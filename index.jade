@@ -1,0 +1,17 @@
+extends layout
+
+block vars
+    - var title = "Welcome to Upstage";
+    - var author = "Reid Burke";
+    - var description = "Welcome!";
+
+block slides
+    section.slide.title
+        h2= title
+        p.author= author
+
+    section.slide
+        :markdown
+            ## What is Upstage?
+
+            Upstage is a library for making web presentations.

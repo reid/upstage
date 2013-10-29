@@ -1,0 +1,30 @@
+{
+  "name": "upstage",
+  "version": "0.0.0",
+  "description": "Library for web presentations.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/reid/upstage.git"
+  },
+  "keywords": [
+    "yui",
+    "presentations"
+  ],
+  "author": "Reid Burke <me@reidburke.com>",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/reid/upstage/issues"
+  },
+  "dependencies": {
+    "markdown": "~0.5.0",
+    "jade": "~0.35.0"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/jade -P index.jade",
+    "watch": "./node_modules/.bin/jade -P -w index.jade"
+  }
+}

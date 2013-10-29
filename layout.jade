@@ -1,0 +1,71 @@
+- var description = "";
+- var author = "";
+- var copyright = "© " + (new Date()).getFullYear();
+block vars
+!!! 5
+html
+    head
+        meta(charset="utf-8")
+
+        title= title
+
+        meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+        meta(name="viewport", content="width=1024, user-scalable=no")
+
+        meta(name="author", content="#{author}")
+        meta(name="copyright", content="#{copyright}")
+        meta(name="description", content="#{description}")
+
+        link(rel="stylesheet", href="build/upstage-deck-core/upstage-deck-core-min.css")
+        link(rel="stylesheet", href="transition.css")
+        link(rel="stylesheet", href="prettify.css")
+
+    body
+
+        #bd.deck-container
+            block slides
+
+        script(src="prettify.js")
+        script(src="http://yui.yahooapis.com/3.13.0/build/yui/yui-min.js")
+
+        script .
+            if (!window.YUI) {
+                // Retry with a local URL.
+                document.write('<script src="yui3/build/yui/yui.js"><\/script>');
+                // Don't autodetect the base path (the CDN path didn't work).
+                document.write('<script>YUI.config.base = "yui3/build/";<\/script>');
+            }
+        script .
+            prettyPrint();
+            YUI({
+                modules: {
+                    "upstage": {
+                        fullpath: "build/upstage/upstage-min.js",
+                    }
+                },
+                debug: true,
+                filter: "min"
+            }).use(
+                "upstage",
+                function (Y) {
+                    // Upstage is a YUI widget.
+                    var deck = new Y.Upstage({
+                        srcNode: "#bd" // Where to find .slide elements.
+                    });
+
+                    // Upstage does not do much without plugins.
+                    // They are all optional. Use only what you need.
+                    deck.plug([
+                        Y.Plugin.UpstageKeyboard,
+                        Y.Plugin.UpstageBlank,
+                        Y.Plugin.UpstageGesture,
+                        Y.Plugin.UpstagePermalink
+                    ]);
+
+                    deck.render();
+
+                    if ("function" === typeof window.deckReady) {
+                        window.deckReady(deck, Y);
+                    }
+                }
+            );
