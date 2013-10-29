@@ -48,6 +48,11 @@
                 "deck.core.css"
             ]
         },
+        "upstage-deck-crossfade": {
+            "cssfiles": [
+                "deck.crossfade.css"
+            ]
+        },
         "upstage-gesture": {
             "config": {
                 "requires": [

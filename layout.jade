@@ -17,7 +17,6 @@ html
         meta(name="description", content="#{description}")
 
         link(rel="stylesheet", href="build/upstage-deck-core/upstage-deck-core-min.css")
-        link(rel="stylesheet", href="transition.css")
         link(rel="stylesheet", href="prettify.css")
 
     body
@@ -41,6 +40,9 @@ html
                 base: "build/",
                 modules: {
                     "upstage": {},
+                    "upstage-deck-crossfade": {
+                        type: "css"
+                    },
                     "upstage-test-pattern": {},
                     "upstage-test-pattern-css": {
                         type: "css"
@@ -50,6 +52,7 @@ html
                 filter: "min"
             }).use(
                 "upstage",
+                "upstage-deck-crossfade",
                 function (Y) {
                     // Upstage is a YUI widget.
                     var deck = new Y.Upstage({
