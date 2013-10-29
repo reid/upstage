@@ -38,9 +38,12 @@ html
         script .
             prettyPrint();
             YUI({
+                base: "build/",
                 modules: {
-                    "upstage": {
-                        fullpath: "build/upstage/upstage-min.js",
+                    "upstage": {},
+                    "upstage-test-pattern": {},
+                    "upstage-test-pattern-css": {
+                        type: "css"
                     }
                 },
                 debug: true,
@@ -57,10 +60,17 @@ html
                     // They are all optional. Use only what you need.
                     deck.plug([
                         Y.Plugin.UpstageKeyboard,
-                        Y.Plugin.UpstageBlank,
                         Y.Plugin.UpstageGesture,
                         Y.Plugin.UpstagePermalink
                     ]);
+
+                    if (/[?&]smpte=1/.test(Y.config.win.location.search)) {
+                        Y.use("upstage-test-pattern", function (Y) {
+                            deck.plug(Y.Plugin.UpstageTestPattern);
+                        });
+                    } else {
+                        deck.plug(Y.Plugin.UpstageBlank);
+                    }
 
                     deck.render();
 
