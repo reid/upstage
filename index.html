@@ -9,7 +9,6 @@
     <meta name="copyright" content="© 2013">
     <meta name="description" content="Welcome!">
     <link rel="stylesheet" href="build/upstage-deck-core/upstage-deck-core-min.css">
-    <link rel="stylesheet" href="prettify.css">
   </head>
   <body>
     <div id="bd" class="deck-container">
@@ -54,7 +53,6 @@
         </ul>
       </section>
     </div>
-    <script src="prettify.js"></script>
     <script src="http://yui.yahooapis.com/3.13.0/build/yui/yui-min.js"></script>
     <script>
       if (!window.YUI) {
@@ -65,12 +63,15 @@
       }
     </script>
     <script>
-      prettyPrint();
       YUI({
           base: "build/",
           modules: {
               "upstage": {},
               "upstage-deck-crossfade": {
+                  type: "css"
+              },
+              "upstage-prettify": {},
+              "upstage-prettify-css": {
                   type: "css"
               },
               "upstage-test-pattern": {},
@@ -82,8 +83,11 @@
           filter: "min"
       }).use(
           "upstage",
+          "upstage-prettify",
           "upstage-deck-crossfade",
           function (Y) {
+              prettyPrint();
+              
               // Upstage is a YUI widget.
               var deck = new Y.Upstage({
                   srcNode: "#bd" // Where to find .slide elements.

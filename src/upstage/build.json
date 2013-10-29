@@ -53,6 +53,21 @@
                 "deck.crossfade.css"
             ]
         },
+        "upstage-prettify": {
+            "config": {
+                "requires": [
+                    "upstage-prettify-css"
+                ]
+            },
+            "jsfiles": [
+                "prettify.js"
+            ]
+        },
+        "upstage-prettify-css": {
+            "cssfiles": [
+                "prettify.css"
+            ]
+        },
         "upstage-gesture": {
             "config": {
                 "requires": [

@@ -17,14 +17,12 @@ html
         meta(name="description", content="#{description}")
 
         link(rel="stylesheet", href="build/upstage-deck-core/upstage-deck-core-min.css")
-        link(rel="stylesheet", href="prettify.css")
 
     body
 
         #bd.deck-container
             block slides
 
-        script(src="prettify.js")
         script(src="http://yui.yahooapis.com/3.13.0/build/yui/yui-min.js")
 
         script .
@@ -35,12 +33,15 @@ html
                 document.write('<script>YUI.config.base = "yui3/build/";<\/script>');
             }
         script .
-            prettyPrint();
             YUI({
                 base: "build/",
                 modules: {
                     "upstage": {},
                     "upstage-deck-crossfade": {
+                        type: "css"
+                    },
+                    "upstage-prettify": {},
+                    "upstage-prettify-css": {
                         type: "css"
                     },
                     "upstage-test-pattern": {},
@@ -52,8 +53,11 @@ html
                 filter: "min"
             }).use(
                 "upstage",
+                "upstage-prettify",
                 "upstage-deck-crossfade",
                 function (Y) {
+                    prettyPrint();
+
                     // Upstage is a YUI widget.
                     var deck = new Y.Upstage({
                         srcNode: "#bd" // Where to find .slide elements.
