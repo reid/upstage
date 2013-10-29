@@ -12,6 +12,24 @@
                 "blank.js"
             ]
         },
+        "upstage-test-pattern": {
+            "config": {
+                "requires": [
+                    "upstage-slideshow",
+                    "upstage-test-pattern-css",
+                    "plugin",
+                    "array-extras"
+                ]
+            },
+            "jsfiles": [
+                "test-pattern.js"
+            ]
+        },
+        "upstage-test-pattern-css": {
+            "cssfiles": [
+                "test-pattern.css"
+            ]
+        },
         "upstage-controls": {
             "config": {
                 "requires": [
