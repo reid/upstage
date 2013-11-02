@@ -85,6 +85,17 @@ Y.Upstage = Y.Base.create(UPSTAGE_NAME, Y.Widget, [], {
         });
         this.after(CURRENT_SLIDE_CHANGE, Y.bind("_updateState", this));
         this.after(CURRENT_SLIDE_CHANGE, Y.bind("_updateContainerClasses", this));
+        this.after(CURRENT_SLIDE_CHANGE, Y.bind("_deselect", this));
+    },
+    _deselect: function () {
+        // Deselect elements which are no longer visible.
+        // Eliminates phantom selected text on iOS.
+        var win = Y.config.win;
+        if (win.getSelection) {
+            win.getSelection().removeAllRanges();
+        } else if (win.selection) {
+            win.selection.empty();
+        }
     },
     _updateContainerClasses: function (ev) {
         var currentIndex = ev.newVal,
