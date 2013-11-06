@@ -119,8 +119,6 @@ Y.extend(UpstageTestPattern, Y.Plugin.Base, {
             start = this.get("start"),
             elapsed = now.getTime() - start.getTime();
 
-        console.log(elapsed, this.formatTime(elapsed));
-
         return this.formatTime(elapsed);
     },
     updateUI: function () {
