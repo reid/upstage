@@ -3,3 +3,5 @@ node_modules
 build/upstage/upstage.js
 build/upstage/upstage-debug.js
 build/upstage-*/
+!build/upstage-deck-core-css/
+build/upstage-deck-core-css/upstage-deck-core-css.css
