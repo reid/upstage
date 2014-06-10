@@ -15,27 +15,16 @@ a fine example of what's possible.
 
 Both of these talks used the APIs described below to extend Upstage.
 
-## Using S9
-
-Upstage works with [S9][], which lets you write your slides in Markdown, Textile,
-or reStructuredText. This lets you focus on [writing and re-ordering content][wtf]
-as you create your presentation.
-
-To use Upstage with S9, run:
-
-    gem install slideshow
-    slideshow install https://raw.github.com/reid/upstage/master/upstage.txt
-
-Note: S9 requires Ruby 1.9.2 as of 2013-10-21. This is not bundled with OS X Mountain Lion.
-You can use [RVM](https://rvm.io/) to install and use Ruby 1.9.3 on Mountain Lion.
-
 ## Quick Start
-
-S9 is optional. You can make your own HTML generator
-or just edit HTML directly.
 
 This repository includes `index.html` as a starting point.
 Copy the `build` directory and `index.html` to your own workspace and get writing.
+
+You may also be interested in generating HTML from a template language.
+An example using [Jade][] is provided at `index.jade`. (This is how I write my slides.)
+To use the example, copy `*.jade` and `package.json` to your own workspace,
+run `npm install` to install the Jade compiler, then run `npm run build` or `npm run watch`
+to build your presentation.
 
 ## Themes
 
@@ -97,10 +86,9 @@ Upstage was written by Reid Burke.
 Upstage is available online at <https://github.com/reid/upstage>. You may file bugs or contact me there.
 
   [YUI]: http://yuilibrary.com/
-  [S9]: https://github.com/slideshow-s9/slideshow#readme
+  [Jade]: http://cssdeck.com/labs/learning-the-jade-templating-engine-syntax
   [Shifter]: http://yui.github.io/shifter/
   [deck.js]: https://github.com/imakewebthings/deck.js
   [wctw]: http://reid.github.io/decks/2012/yuiconf/yeti.html
   [wctw-source]: https://github.com/reid/decks/blob/3960963d59da53e5098cb22697a6a5a2d7b8d171/2012/yuiconf/yeti.text
   [demo]: https://www.youtube.com/watch?feature=player_detailpage&v=lA6XVosv04E#t=849
-  [wtf]: http://www.markboulton.co.uk/journal/wysiwtfftwomg

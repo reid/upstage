@@ -1,6 +1,0 @@
-__file__.html index.html.erb
-build/upstage-deck-core/upstage-deck-core-min.css
-build/upstage/upstage-min.js
-transition.css
-prettify.css
-prettify.js
