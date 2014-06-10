@@ -130,6 +130,16 @@
             "jsfiles": [
                 "slideshow.js"
             ]
+        },
+        "upstage-text-fill": {
+            "config": {
+                "requires": [
+                    "upstage-slideshow"
+                ]
+            },
+            "jsfiles": [
+                "text-fill.js"
+            ]
         }
     },
     "rollups": {
@@ -139,7 +149,8 @@
                 "upstage-keyboard",
                 "upstage-blank",
                 "upstage-gesture",
-                "upstage-permalink"
+                "upstage-permalink",
+                "upstage-text-fill"
             ],
             "config": {
                 "use": [
@@ -147,7 +158,8 @@
                     "upstage-keyboard",
                     "upstage-blank",
                     "upstage-gesture",
-                    "upstage-permalink"
+                    "upstage-permalink",
+                    "upstage-text-fill"
                 ]
             }
         }
