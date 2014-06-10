@@ -2,6 +2,17 @@
 
 Upstage is a library for building web presentations.
 
+## Quick Start
+
+This repository includes `index.html` as a starting point.
+Copy the `build` directory and `index.html` to your own workspace and get writing.
+
+You may also be interested in generating HTML from a template language.
+An example using [Jade][] is provided at `index.jade`. (This is how I write my slides.)
+To use the example, copy `*.jade` and `package.json` to your own workspace,
+run `npm install` to install the Jade compiler, then run `npm run build` or `npm run watch`
+to build your presentation.
+
 ## Examples
 
 Upstage was created in 2010 for a [YUIConf](http://yuilibrary.com/yuiconf/) talk to
@@ -14,17 +25,6 @@ The [presentation][wctw] and its [S9 source file][wctw-source] are
 a fine example of what's possible.
 
 Both of these talks used the APIs described below to extend Upstage.
-
-## Quick Start
-
-This repository includes `index.html` as a starting point.
-Copy the `build` directory and `index.html` to your own workspace and get writing.
-
-You may also be interested in generating HTML from a template language.
-An example using [Jade][] is provided at `index.jade`. (This is how I write my slides.)
-To use the example, copy `*.jade` and `package.json` to your own workspace,
-run `npm install` to install the Jade compiler, then run `npm run build` or `npm run watch`
-to build your presentation.
 
 ## Themes
 
