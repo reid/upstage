@@ -1,3 +1,6 @@
+/*! Upstage @VERSION@ github.com/reid/upstage
+ *  Copyright Yahoo! Inc., BSD licensed: yuilibrary.com/license */
+
 // This is the core of the [Upstage](http://github.com/reid/upstage)
 // presentation system. Upstage is built as a collection of modules
 // on top of [YUI](http://developer.yahoo.com/yui/3/).
