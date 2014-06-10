@@ -69,6 +69,10 @@ html
                         Y.Plugin.UpstageKeyboard,
                         Y.Plugin.UpstageGesture,
                         Y.Plugin.UpstagePermalink
+                        // UpstageTextFill takes the first child of div.textfill
+                        // and expands its text size to fill the container,
+                        // see src/upstage/js/text-fill.js for details
+                        // Y.Plugin.UpstageTextFill
                     ]);
 
                     if (/[?&]smpte=1/.test(Y.config.win.location.search)) {
